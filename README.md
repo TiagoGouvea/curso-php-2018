@@ -4,11 +4,21 @@
 
 Para começarmos precisamos instalar três coisas: o git, uma IDE e um pacote com os servidores:
 
-- [GitHub desktop](https://desktop.github.com/) - Versão para windows do github. Ou [Git Bash](https://git-scm.com/downloads) - Terminal estilo linxu (se você quiser usar o terminal).
+### Github
+Baixar [GitHub desktop](https://desktop.github.com/) para windows do github, ou [Git Bash](https://git-scm.com/downloads) que é um terminal estilo linxu (se você quiser usar o terminal).
+
+Instalar e autenticar antes de baixar os repositórios.
+
 - [PHP Storm](https://www.jetbrains.com/phpstorm/) - IDE
-- [XAMPP](https://www.apachefriends.org/pt_br/index.html) ou [WAMPP](http://www.wampserver.com/en/) - Pacote de servidores
+
+### Pacote de servidores
+ 
+ [XAMPP](https://www.apachefriends.org/pt_br/index.html) ou [WAMPP](http://www.wampserver.com/en/) - Pacote de servidores
+ Trocar o documentRoot e directory para o apache carregar os arquivos da pasta certa.
 
 Com isso instalado já podemos começar a programar.
+
+A partir daqui é essencial você saber em qual pasta seu servidor está servido, e onde ficam seus projetos (certamente é no mesmo lugar).
 
 ## Material de estudo
 
