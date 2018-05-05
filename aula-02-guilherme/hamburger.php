@@ -1,6 +1,6 @@
 <?php
 //header('Content-Type: text/plain; charset=utf-8');
-echo "<pre>";
+
 //$alimentos = [
 //    "frutas" => ["banana", "maça"], "verduras" => "alface", "beterraba"];
 //var_dump($alimentos);
@@ -39,13 +39,12 @@ $data = json_decode($data);
 
 //var_dump($data);
 
-$hambugeria = $data[0];
-var_dump($hambugeria);
+$hambugeria = $data[4];
+//var_dump($hambugeria);
 
 echo "<hr>        
-       <h1>{$hambugeria->place->name}</h1>
-       <small>{$hambugeria->place->vicinity}</small>
-       <div>  
+       <h1 align='center'>{$hambugeria->place->name}</h1>
+       <div align='center'>  
              Nota nesta semana: $hambugeria->weekAverage </br>   
              Sabor: $hambugeria->taste </br>    
              Atendimento: $hambugeria->service </br>     
@@ -55,6 +54,37 @@ echo "<hr>
         </div>
 ";
 
+$fotos = $hambugeria->place->photos;
 
+function exibirFoto($photo){
+    $urlFinal = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&key=AIzaSyBEK74-zUzXuVWkdzoNG5rV_wL2uOSneXc&photoreference=";
+    $urlFinal = $urlFinal.$photo->photo_reference;
+    ////var_dump($urlFinal);
+    echo "<img src=$urlFinal style='width: 100px';>";
+}
 
+foreach ($fotos as $foto){
+    exibirFoto($foto);
+}
+
+echo "<hr>";
+
+$avaliacoes = $hambugeria->place->reviews;
+
+function exibirAvaliacoes($avaliacao){
+
+    echo " 
+    <div align='center'> 
+         Nota: {$avaliacao->rating} </br>
+         Quando avaliou: {$avaliacao->relative_time_description} </br>
+         Autor: {$avaliacao->author_name} </br>
+         Avaliacao: {$avaliacao->text} </br>
+    </div></br>
+";
+}
+echo "<h2 align='center'>Descricões e Informações sobre o Local</h2>";
+
+foreach ($avaliacoes as $item) {
+    exibirAvaliacoes($item);
+}
 
