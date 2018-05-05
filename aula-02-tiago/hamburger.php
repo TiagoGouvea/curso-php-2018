@@ -1,5 +1,16 @@
 <?php
 
+/*
+ *  Missões de agora:
+ * 1 - Exibir todas as avaliações da hamburgeria (caso existam)
+ * 2 - Exibir todas as hamburgerias
+ * > funções
+ * > loops
+ */
+
+// Controlar
+error_reporting(E_ALL ^ E_NOTICE);
+
 function CallAPI($method, $url, $data = false)
 {
     $curl = curl_init();
@@ -43,52 +54,73 @@ $hamburgerias = json_decode($data);
 //die();
 
 // Pegar apenas uma hamburgueria da lista
-$hamburgeria = $hamburgerias[1];
-echo "<pre>";
-//print_r($hamburgeria->place);
-echo "</pre>";
+//$hamburgeria = $hamburgerias[1];
 
-// Exibir dados da hamburgeria
-$hamburgeria->weekAverage = round($hamburgeria->weekAverage);
-$hamburgeria->service = round($hamburgeria->service);
-$hamburgeria->ambiance = round($hamburgeria->ambiance);
-$hamburgeria->meat = round($hamburgeria->meat);
-$hamburgeria->price = round($hamburgeria->price);
-echo "<hr>
+foreach ($hamburgerias as $hamburgeria)
+    exibirHambuergeria($hamburgeria);
+//exibirHambuergeria($hamburgerias[34]);
+
+function exibirHambuergeria($hamburgeria)
+{
+    //echo "<pre>";
+    //print_r($hamburgeria->place);
+    //echo "</pre>";
+
+    // Exibir dados da hamburgeria
+    $weekAverage = ajustarValor($hamburgeria, 'weekAverage');
+    $service = ajustarValor($hamburgeria, 'service');
+    $ambiance = ajustarValor($hamburgeria, 'ambiance');
+    $meat = ajustarValor($hamburgeria, 'meat');
+    $price = ajustarValor($hamburgeria, 'price');
+    $taste = ajustarValor($hamburgeria, 'taste');
+
+    echo "<hr>
     <h1>{$hamburgeria->place->name}</h1>
     <small>{$hamburgeria->place->vicinity}</small>
     <div>
-        Nota nesta semana: $hamburgeria->weekAverage<br/>
-        Sabor: ".round($hamburgeria->taste)."<br/>
-        Atendimento: $hamburgeria->service<br/>
-        Ambientes: $hamburgeria->ambiance<br/>
-        Ponto da Carne: $hamburgeria->meat<br/>
-        Preço: $hamburgeria->price<br/>
-    </div>
-";
+        Nota nesta semana: $weekAverage<br/>
+        Sabor: $taste <br/>
+        Atendimento: $service<br/>
+        Ambientes: $ambiance<br/>
+        Ponto da Carne: $meat<br/>
+        Preço: $price<br/>
+    </div>";
 
-$fotos = $hamburgeria->place->photos;
-//echo "<pre>";
-//var_dump($fotos);
-//echo "</pre>";
+    $fotos = $hamburgeria->place->photos;
+    //echo "<pre>";
+    //var_dump($fotos);
+    //echo "</pre>";
 
-function exibirFoto($photo){
+    echo "<h2>Fotos</h2>";
+    echo "Existem " . count($fotos) . " deste local.<br>";
+
+    foreach ($fotos as $foto) {
+        exibirFoto($foto);
+    }
+}
+
+
+function exibirFoto($photo)
+{
     $urlFinal = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&key=AIzaSyBEK74-zUzXuVWkdzoNG5rV_wL2uOSneXc&photoreference=";
-    $urlFinal = $urlFinal.$photo->photo_reference;
+    $urlFinal = $urlFinal . $photo->photo_reference;
     ////var_dump($urlFinal);
     echo "<img src=$urlFinal style='width: 100px';>";
 }
-echo "<h2>Fotos</h2>";
-echo "Existem ".count($fotos)." deste local.<br>";
 
-foreach ($fotos as $foto){
-    exibirFoto($foto);
+function ajustarValor($obj, $atributo)
+{
+    if (isset($obj->$atributo))
+        return round($obj->$atributo);
+    else
+        return 0;
 }
+
+
 
 //for ($i=0; $i<count($fotos); $i++){
 //    exibirFoto($fotos[$i]);
 //}
-
 
 
 //$urlFinal = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&key=AIzaSyBEK74-zUzXuVWkdzoNG5rV_wL2uOSneXc&photoreference=";
