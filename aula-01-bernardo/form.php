@@ -8,7 +8,7 @@
 
 var_dump($_POST);
 if (count($_POST )> 0) {
-    echo "Olá" . $_POST ['nome'] . " voce tem " . $_POST ['idade'];
+    echo "<br>Olá " . $_POST ['nome'] . " você tem   " . $_POST ['idade']."  seu e-mail é  ". $_POST ['email'];
 } else {
     ?>
     <form method="post">
@@ -16,6 +16,7 @@ if (count($_POST )> 0) {
 
         Nome:<input type="text " name="nome"><br>
         Idade: <input type="text" name="idade"><br>
+        E-mail: <input type="text" name="email"><br>
         <input type="submit" value="Enviar">
 
     </form>

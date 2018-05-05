@@ -8,3 +8,4 @@
 
 echo $nome . "<br>";
 saudar("Cris");
+echo $idade;

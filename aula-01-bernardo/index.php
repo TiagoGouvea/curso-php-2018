@@ -21,5 +21,14 @@ function saudar($nome)
 }
 
 saudar("Cris");
+saudar("Bernardo");
 
 require "segundo.php";
+
+
+
+
+
+
+
+
