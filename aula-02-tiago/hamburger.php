@@ -56,6 +56,38 @@ $hamburgerias = json_decode($data);
 // Pegar apenas uma hamburgueria da lista
 //$hamburgeria = $hamburgerias[1];
 
+//$nossasHamburgerias=[];
+//foreach ($hamburgerias as $hamburgeria){
+//    $nossaHamburgeria = new Hamburgeria($hamburgeria);
+//    $nossaHamburgeria->getPiorAvaliacao();
+//    $nossaHamburgeria->getMelhorAvaliacao();
+//    $nossasHamburgerias[]=$nossaHamburgeria;
+//}
+
+//$piorHamburgeria = ?
+//for.......
+//echo "Pior hamburgeria: ".$piorHamburgeria->name;
+
+
+class Hamburgeria{
+    public function __construct($h)
+    {
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+        $this->name = $h->name;
+    }
+}
+
 foreach ($hamburgerias as $hamburgeria)
     exibirHambuergeria($hamburgeria);
 //exibirHambuergeria($hamburgerias[34]);
