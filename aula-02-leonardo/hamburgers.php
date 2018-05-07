@@ -99,7 +99,7 @@
                 </div>
         ";
 
-    }
+    } 
 
     function ajustValue ($obj, $field) {
         if (isset($obj->$field))
