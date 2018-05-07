@@ -3,7 +3,8 @@
 function CallAPI($method, $url, $data = false)
 {
     $curl = curl_init();
-    switch ($method) {
+    switch ($method)
+    {
         case "POST":
             curl_setopt($curl, CURLOPT_POST, 1);
 
@@ -27,11 +28,9 @@ function CallAPI($method, $url, $data = false)
     return $result;
 }
 
-$getApi = CallAPI("get","https://swapi.co/api/");
+$data = CallAPI("get","https://swapi.co/api/films/");
 
-//$api_sw = json_decode($getApi);
+//$api_sw = json_decode($data);
 //var_dump($api_sw);
 
-$starWars = $getApi;
-
-var_dump($starWars);
+print_r($data);
