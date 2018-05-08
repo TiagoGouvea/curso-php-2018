@@ -17,8 +17,7 @@ class Personagem{
 
     /**
      * Personagem constructor.
-     * @param $name
-     * @param $cabelo
+     * @param $item
      */
     public function __construct($item){
         $this->name = $item->name;
@@ -96,8 +95,7 @@ class Personagens{
         }
         return self::$personagens;
     }
-
-    public function CallAPI($method, $url, $data = false)
+    static function CallAPI($method, $url, $data = false)
     {
         $curl = curl_init();
         switch ($method)
@@ -124,13 +122,13 @@ class Personagens{
         curl_close($curl);
         return $result;
     }
-
 }
 
-Personagens::readApi();
 
+//$teste1 = new Personagem(Personagens::readApi());
+//var_dump($teste1);
 
-//$teste1 = new Personagem(0, 0);
+//
 //echo $teste1->getName();
 //echo $teste1->getCabelo();
 //
@@ -138,8 +136,6 @@ Personagens::readApi();
 //$teste2 = new Personagem(1, 1);
 //echo $teste2->getName();
 //echo $teste2->getCabelo();
-
-
 
 //echo $teste1->getAll();
 
