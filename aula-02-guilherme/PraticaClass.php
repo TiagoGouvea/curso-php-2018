@@ -1,7 +1,18 @@
+<html>
+    <title>Pagina</title>
+        <body>
+            <h1>Personagens</h1>
+
+        </body>
+</html>
+
+
+
+
 <?php
 
 class Personagem{
-    public $PersonagemNome;
+    public $name;
     public $cabelo;
 
     /**
@@ -9,30 +20,30 @@ class Personagem{
      * @param $name
      * @param $cabelo
      */
-//    public function __construct($name, $cabelo){
-//        $this->PersonagemNome = $name;
-//        $this->cabelo = $cabelo;
-//    }
+    public function __construct($item){
+        $this->name = $item->name;
+        $this->cabelo = $item->hair_color;
+    }
 
     /**
      * @return mixed
      */
-    public function getPersonagemNome(){
-        return $this->PersonagemNome[0];
+    public function getName(){
+        return $this->name;
     }
 
     /**
-     * @param mixed $PersonagemNome
+     * @param mixed $name
      */
-    public function setPersonagemNome($PersonagemNome){
-        $this->PersonagemNome = $PersonagemNome;
+    public function setName($name){
+        $this->name = $name;
     }
 
     /**
      * @return mixed
      */
     public function getCabelo(){
-        return $this->cabelo[1];
+        return $this->cabelo;
     }
 
     /**
@@ -42,52 +53,93 @@ class Personagem{
         $this->cabelo = $cabelo;
     }
 
-    public function __toString(){
-        return "<br>" . $this->getCabelo();
-    }
+//    public function CallAPI($method, $url, $data = false)
+//    {
+//        $curl = curl_init();
+//        switch ($method)
+//        {
+//            case "POST":
+//                curl_setopt($curl, CURLOPT_POST, 1);
+//
+//                if ($data)
+//                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+//                break;
+//            case "PUT":
+//                curl_setopt($curl, CURLOPT_PUT, 1);
+//                break;
+//            default:
+//                if ($data)
+//                    $url = sprintf("%s?%s", $url, http_build_query($data));
+//        }
+//        // Optional Authentication:
+//        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+//        //curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+//        curl_setopt($curl, CURLOPT_URL, $url);
+//        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//        $result = curl_exec($curl);
+//        curl_close($curl);
+//        return $result;
+//    }
 
 }
 
-function CallAPI($method, $url, $data = false)
-{
-    $curl = curl_init();
-    switch ($method)
+class Personagens{
+    static public $personagens = [];
+
+    static public function readApi(){
+        $data = self::CallAPI("get","https://swapi.co/api/people/");
+        $data = json_decode($data);
+
+         foreach ($data as $item){
+             $data = new Personagem($item);
+             self::$personagens[]=$data;
+        }
+        return self::$personagens;
+    }
+
+    public function CallAPI($method, $url, $data = false)
     {
-        case "POST":
-            curl_setopt($curl, CURLOPT_POST, 1);
+        $curl = curl_init();
+        switch ($method)
+        {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
 
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            break;
-        case "PUT":
-            curl_setopt($curl, CURLOPT_PUT, 1);
-            break;
-        default:
-            if ($data)
-                $url = sprintf("%s?%s", $url, http_build_query($data));
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_PUT, 1);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
+        // Optional Authentication:
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        //curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        curl_close($curl);
+        return $result;
     }
-    // Optional Authentication:
-    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    //curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($curl);
-    curl_close($curl);
-    return $result;
+
 }
 
-$data = CallAPI("get","https://swapi.co/api/people/");
-$data = json_decode($data);
+Personagens::readApi();
 
-$name_1 = $data->results[0]->name;
-$hair_1 = $data->results[0]->hair_color;
 
-$teste1 = new Personagem();
-$teste1->setCabelo($hair_1);
-$teste1->setPersonagemNome($name_1);
+//$teste1 = new Personagem(0, 0);
+//echo $teste1->getName();
+//echo $teste1->getCabelo();
+//
+//echo "<br>";
+//$teste2 = new Personagem(1, 1);
+//echo $teste2->getName();
+//echo $teste2->getCabelo();
 
-$teste1->getCabelo();
 
-var_dump($teste1);
 
+//echo $teste1->getAll();
 
