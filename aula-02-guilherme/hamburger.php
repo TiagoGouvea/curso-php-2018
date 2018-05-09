@@ -37,8 +37,8 @@ $data = CallAPI("get",
 );
 $data = json_decode($data);
 
-//var_dump($data);
-
+var_dump($data);
+die();
 $hambugeria = $data[4];
 //var_dump($hambugeria);
 
