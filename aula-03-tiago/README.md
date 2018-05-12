@@ -37,7 +37,6 @@ Recomendo:
 8 - Criar um edit.php que carrega o formulário, exibindo um registro, e salva as alteração (editando)
 9 - Criar um del.php ou index.php?del=[id] que apaga um registro
 
-
 # Servidor online
 
 ServerName: desafio-php
@@ -45,6 +44,8 @@ ServerName: desafio-php
 ### MySql
 Usuário: root   
 Senha: TiagoGouvea
+
+'client'@'%' IDENTIFIED BY 'TiagoGouvea';
 
 ### PhpMyAdmin
 
