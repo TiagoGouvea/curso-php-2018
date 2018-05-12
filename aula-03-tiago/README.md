@@ -48,5 +48,7 @@ Senha: TiagoGouvea
 
 ### PhpMyAdmin
 
+http://167.99.233.184/phpmyadmin/
+
 Usuário: phpmyadmin
 Senha:  TiagoGouvea
