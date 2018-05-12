@@ -24,6 +24,9 @@ CRUD completo da tabela:
 - Excluir registro
 - Editar registro
 
+Recomendo: 
+- Usar Bootstrap
+
 1 - Criar pasta com nome da tabela ex: "trila"
 2 - Criar um index.php que terá link para as opções
 3 - Criar um form.php que é o formulário
@@ -32,4 +35,18 @@ CRUD completo da tabela:
 6 - Criar um list.php que lista os registros do banco
 7 - Carregar o list.php no index.php, pra já listar os registros
 8 - Criar um edit.php que carrega o formulário, exibindo um registro, e salva as alteração (editando)
-9 - Criar um del.php ou index.php?del=[id] que apaga um registro 
+9 - Criar um del.php ou index.php?del=[id] que apaga um registro
+
+
+# Servidor online
+
+ServerName: desafio-php
+
+### MySql
+Usuário: root   
+Senha: TiagoGouvea
+
+### PhpMyAdmin
+
+Usuário: phpmyadmin
+Senha:  TiagoGouvea
