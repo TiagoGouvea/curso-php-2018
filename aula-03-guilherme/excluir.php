@@ -2,7 +2,26 @@
 
 require 'conexao.php';
 
-var_dump($_GET);
+//var_dump($_GET);
+
+$erro = null;
+
+try {
+    // Salvar ele no banco de dados
+
+    $sql = "DELETE FROM `pergunta` WHERE `id` = :var1";
+    $std = $db->prepare($sql);
+    $std->bindParam(":var1", $_GET['id'], PDO::PARAM_INT);
+    $success = $std->execute();
+
+    if ($success) {
+        $erro =  "Registro excluido!";
+    } else {
+        $erro =  "Erro ao excluir registro";
+    }
+} catch (Exception $e) {
+    $erro = "Erro ao excluir registro";
+}
 
 ?>
 <!doctype html>
@@ -23,30 +42,11 @@ var_dump($_GET);
         <a class="navbar-brand" href="#">Questionários</a>
     </nav>
 </div>
-    <form method="post">
-        <div class="form-group">
-            <label for="formGroupExampleInput">Titulo</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Tipo</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" name="tipo" placeholder="Tipo">
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-2">Status:</div>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1" name="ativo" value="1">
-                    <label class="form-check-label" for="gridCheck1">
-                        Ativo
-                    </label>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+<div class="alert alert-danger" role="alert">
+    <?php echo $erro ?>
 </div>
-</form>
+    <a href="index.php"><button type="button" class="btn btn-primary">Voltar</button></a>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

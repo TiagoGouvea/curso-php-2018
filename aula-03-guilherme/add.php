@@ -66,7 +66,7 @@ if (count($_POST) > 0) {
         <form method="post">
             <div class="form-group">
                 <label for="formGroupExampleInput">Titulo</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo" required>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Tipo</label>
@@ -84,9 +84,13 @@ if (count($_POST) > 0) {
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-    </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
+        <a href="index.php">
+            <button type="submit" class="btn btn-primary">Voltar</button>
+        </a>
+    </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
