@@ -39,13 +39,6 @@ if (count($_POST) > 0) {
             $erro
         </div>";
     }
-
-
-//    <div class="alert alert-danger" role="alert">
-//        This is a danger alert—check it out!
-//    </div>
-
-
 }
 
     ?>
@@ -65,20 +58,11 @@ if (count($_POST) > 0) {
     </head>
     <body>
     <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Cadastrar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Alterar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Consultar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Excluir</a>
-            </li>
-        </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Questionários</a>
+        </nav>
+    </div>
+    <div class="container">
         <form method="post">
             <div class="form-group">
                 <label for="formGroupExampleInput">Titulo</label>

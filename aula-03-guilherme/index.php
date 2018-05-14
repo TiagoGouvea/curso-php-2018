@@ -56,16 +56,16 @@ require 'conexao.php';
         <tbody>
         <?php
         foreach ($result as $item) {
-            echo "
-                            <tr>
-                                <th scope='row'>{$item->id}</th>
-                                <td>{$item->titulo}</td>
-                                <td>{$item->tipo}</td>
-                                <td>{$item->ativa}</td>
-                                <td><a class=\"btn btn-primary\" role=\"button\" href=\"#\">Alterar</a></td>
-                                <td><a class=\"btn btn-primary\" role=\"button\" href=\"#\">Excluir</a></td>
-                            </tr>
-                        ";
+        echo "
+            <tr>
+                <th scope='row'>{$item->id}</th>
+                <td>{$item->titulo}</td>
+                <td>{$item->tipo}</td>
+                <td>{$item->ativa}</td>
+                <td><a class='btn btn-primary' role='button' href='#'>Alterar</a></td>
+                <td><a class='btn btn-primary' role='button' href='excluir.php?id=$item->id'>Excluir</a></td>
+            </tr>
+        ";
         }
         ?>
         </tbody>

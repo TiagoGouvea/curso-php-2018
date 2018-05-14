@@ -2,7 +2,7 @@
 
 require 'conexao.php';
 
-
+var_dump($_GET);
 
 ?>
 <!doctype html>
@@ -17,22 +17,12 @@ require 'conexao.php';
 
     <title>Hello, world!</title>
 </head>
-<body>
-<div class="container">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastrar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Alterar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Consultar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Excluir</a>
-        </li>
-    </ul>
+<body class="container">
+<div >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Questionários</a>
+    </nav>
+</div>
     <form method="post">
         <div class="form-group">
             <label for="formGroupExampleInput">Titulo</label>
