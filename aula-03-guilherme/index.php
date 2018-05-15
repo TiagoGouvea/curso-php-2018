@@ -29,7 +29,7 @@ require 'conexao.php';
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Pagina Principal</title>
 </head>
 <body class="text-center">
 <div class="container">
@@ -62,7 +62,7 @@ require 'conexao.php';
                 <td>{$item->titulo}</td>
                 <td>{$item->tipo}</td>
                 <td>{$item->ativa}</td>
-                <td><a class='btn btn-primary' role='button' href='#'>Alterar</a></td>
+                <td><a class='btn btn-primary' role='button' href='edit.php?id=$item->id'>Alterar</a></td>
                 <td><a class='btn btn-primary' role='button' href='excluir.php?id=$item->id'>Excluir</a></td>
             </tr>
         ";
