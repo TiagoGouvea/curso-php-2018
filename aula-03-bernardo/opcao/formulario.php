@@ -3,7 +3,7 @@
 
 require 'conexao.php';
 
-if(count($_POST)>0) {
+if (count($_POST) > 0) {
     try {
 // Salvar ele no banco de dados
         $sql = "insert into opcao (titulo,correta, ativa) values (:titulo,:correta,:ativa)";
@@ -22,42 +22,56 @@ if(count($_POST)>0) {
         var_dump($e);
 //    die("Erro de conexão com o servidor!");
     }
+} else {
+    ?>
+
+    <!doctype html>
+    <html lang="pt">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+              integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+              crossorigin="anonymous">
+
+        <title>Opção</title>
+    </head>
+    <body>
+    <form method="post">
+
+        <div class="form-group col-md-6" style="margin-left: 25px;">
+            <label for="exampleFormControlInput1">Resposta</label>
+            <input type="text" name="titulo" class="form-control" id="titulo">
+
+        </div>
+        <div class="form-row col-md-6 ">
+            <div class="col-sm-1" style="margin-left: 60px;">
+                <label for="exampleFormControlInput1">Correta</label>
+                <input type="checkbox" name="correta" class="form-control" id="correta">
+            </div>
+            <div class="col-sm-1" style="margin-left: 120px;">
+                <label for="exampleFormControlInput1">Ativa</label>
+                <input type="checkbox" name="ativa" class="form-control" id="ativa" value="1" checked>
+            </div>
+
+        </div></br>
+
+        <button type="submit" style="margin-left: 40px;" px class="btn btn-primary ">Submit</button>
+
+    </form>
+    </body>
+    </html>
+    <?php
 }
-else{
-?>
-
-<!doctype html>
-<html lang="pt">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-
-    <title>Opção</title>
-</head>
-<body>
-<form method="post">
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Título</label>
-        <input type="text" name="titulo" class="form-control" id="titulo">
-
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Correta</label>
-        <input type="checkbox" name="correta" class="form-control" id="correta">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Ativa</label>
-        <input type="checkbox" name="ativa" class="form-control" id="ativa" value="1" checked>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</body>
-</html>
-<?php
-}
+/* <div class="col-sm-1" style="margin-left: 60px;">
+                <label for="exampleFormControlInput1">Correta</label>
+                <input type="checkbox" name="correta" class="form-control" id="correta">
+            </div>
+        <div class="col-sm-1" style="margin-left: 120px;">
+                <label for="exampleFormControlInput1">Ativa</label>
+                <input type="checkbox" name="ativa" class="form-control" id="ativa" value="1" checked>
+            </div>
+*/

@@ -49,9 +49,9 @@ $hamburgerias= json_decode($data);
 //var_dump($data);
 //"</pre>";
 $hamburgeria= $hamburgerias[0];
-echo "<pre>";
-var_dump($hamburgeria);
-"</pre>";
+//echo "<pre>";
+//var_dump($hamburgeria);
+//echo"</pre>";
 
 //exibir dados da hanmburgeria
 
@@ -62,11 +62,31 @@ echo "<hr>
              Nota nesta semana: $hamburgeria->weekAverage </br>   
              Sabor: $hamburgeria->taste </br>    
              Atendimento: $hamburgeria->service </br>     
-             Ambiente: $hamburgeria->ambiente </br> 
              Ponto da Carne: $hamburgeria->meat </br>  
              Preco: $hamburgeria->price </br>   
         </div>
 ";
-echo "<pre>";
-var_dump($hamburgeria->place->photos[0]->photo_reference);
-"</pre>";
+//echo "<pre>";
+//var_dump($hamburgeria->place->photos[0]->photo_reference);
+//echo "</pre>";
+$fotos = $hamburgeria->place->photos;
+function exibirFoto($photo){
+    $urlFinal = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&key=AIzaSyBEK74-zUzXuVWkdzoNG5rV_wL2uOSneXc&photoreference=";
+    $urlFinal = $urlFinal.$photo->photo_reference;
+    ////var_dump($urlFinal);
+    echo "<img src=$urlFinal style='width: 100px';>";
+}
+echo "<h2>Fotos</h2>";
+echo "Existem ".count($fotos)." deste local.<br>";
+
+foreach ($fotos as $foto){
+    exibirFoto($foto);
+}
+
+$avaliacoes= $hamburgeria->place->reviews;
+
+
+foreach ($avaliacoes as $avaliacao ){
+    echo "($avaliacao->text)<br>";
+}
+
