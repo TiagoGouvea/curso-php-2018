@@ -1,40 +1,50 @@
 <?php
 
 require 'conexao.php';
-var_dump($_GET);
-echo "<br>";
-var_dump($_POST);
-echo "<br>";
+
+$erro = null;
 
 try {
-
-    if ($_POST) {
-
-        $sql = "UPDATE `pergunta` SET `titulo` = :var2, `tipo` = :var3, `ativa` = :var4 
-                  WHERE `pergunta`.`id` = :var1";
-        $std = $db->prepare($sql);
-        $std->bindParam(":var1", $_GET['id'], PDO::PARAM_INT);
-        $std->bindParam(":var2", $_POST['titulo'], PDO::PARAM_STR);
-        $std->bindParam(":var3", $_POST['tipo'], PDO::PARAM_STR);
-        $std->bindParam(":var4", $_POST['ativo'], PDO::PARAM_STR);
-        $success = $std->execute();
-
-    }
-
-    $sql = "SELECT * FROM pergunta where id = :var1";
+    $sql = "SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+            FROM
+              pergunta AS p
+            INNER JOIN
+              opcao AS o ON o.id = p.id_fase
+             WHERE p.id = :var1";
+    global $db;
     $std = $db->prepare($sql);
     $std->bindParam(":var1", $_GET['id'], PDO::PARAM_INT);
     $success = $std->execute();
     $result = $std->fetchAll(PDO::FETCH_OBJ);
 
     if (!$success) {
-        echo "Erro ao Consultar registro";
+        $erro = "Erro ao consultar registro";
     }
 
 } catch (Exception $e) {
-    echo "Erro ao inserir registro";
+    $erro = "Erro ao consultar registros";
 }
-var_dump($sql);
+
+if (count($_POST) > 0) {
+    $titulo = $_POST['titulo'];
+    $id_fase = $_POST['id_fase'];
+    $tipo = $_POST['tipo'];
+    if (($_POST['ativo']) === "on") {
+        $ativo = 1;
+    } else {
+        $ativo = 0;
+    }
+
+    try {
+        $sql = "UPDATE pergunta SET titulo = '$titulo', tipo = '$tipo', ativa = '$ativo'
+    WHERE pergunta.id = {$_GET['id']}";
+        $std = $db->prepare($sql);
+        $success = $std->execute();
+    } catch (Exception $e) {
+        $erro = "Erro ao atualizar os registro";
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="pt">
@@ -54,8 +64,18 @@ var_dump($sql);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Questionários</a>
     </nav>
-</div>
+</div class = "container">
 <form method="post">
+    <div class="form-group">
+        <label for="formGroupExampleInput">Fase relacionada</label>
+        <select class="form-control">
+            <option selected name="id_fase">Fases</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
     <div class="form-group">
         <label for="formGroupExampleInput">Titulo</label>
         <input type='text' class='form-control'
@@ -82,7 +102,7 @@ var_dump($sql);
                 <input class="form-check-input" type="checkbox"
                        id="gridCheck1" name="ativo" <?php
                 foreach ($result as $item) {
-                    if ($item->ativa) {
+                    if ($item->ativa === "on") {
                         echo "checked";
                     }
                 }
@@ -96,6 +116,12 @@ var_dump($sql);
     <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
 </form>
+<a href="index.php">
+    <button type="" class="btn btn-primary">Voltar</button>
+</a>
+<div class="alert alert-danger" role="alert">
+    <?php echo $erro ?>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
