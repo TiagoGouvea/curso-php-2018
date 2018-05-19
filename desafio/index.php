@@ -46,16 +46,16 @@ $app->group('/admin', function () {
     // Trilha
     $this->group('/pergunta', function () {
         $this->get('/', function ($req, $res, $args) {
-            echo "Listar pergunta";
+            require "view/pergunta/form.php";
         });
         $this->get('/incluir', function ($req, $res, $args) {
-            echo "Form para incluir pergunta";
+            require "view/pergunta/add.php";
         });
         $this->post('/incluir', function ($req, $res, $args) {
             echo "Código para acessar model e incluir no banco";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a pergunta ".$args['id'];
+            require "view/pergunta/edit.php";
         });
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a pergunta $args[id] no banco";
