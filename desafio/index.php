@@ -41,11 +41,6 @@ $app->group('/admin', function () {
             echo "Excluir a trilha ".$args['id'];
         });
     });
-});
-
-// LEO, INSERIR SEU GROUP
-
-$app->group('/admin', function () {
     // Trilha
     $this->group('/pergunta', function () {
         require "model/Pergunta.php";
@@ -56,8 +51,11 @@ $app->group('/admin', function () {
             require "view/pergunta/add.php";
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            Pergunta::cadastrar($_POST);
-            echo "Código para acessar model e incluir no banco";
+            $ok = Pergunta::cadastrar($_POST);
+            if($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+            else
+                echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             require "view/pergunta/edit.php";
@@ -69,9 +67,7 @@ $app->group('/admin', function () {
             echo "Excluir a pergunta ".$args['id'];
         });
     });
-});
 
-$app->group('/admin', function () {
     // Trilha
     $this->group('/opcao', function () {
         $this->get('/', function ($req, $res, $args) {
