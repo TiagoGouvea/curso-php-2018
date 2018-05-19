@@ -34,7 +34,7 @@ $app->group('/admin', function () {
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a trilha $args[id] no banco";
         });
-        $this->del('/excluir/{id}', function ($req, $res, $args) {
+        $this->delete('/excluir/{id}', function ($req, $res, $args) {
             echo "Excluir a trilha ".$args['id'];
         });
     });
