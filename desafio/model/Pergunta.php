@@ -8,7 +8,7 @@ class Pergunta{
     public $tipo;
     public $ativa;
 
-    static function cadastrar($post){
+    static function cadastro($post){
         global $db;
         try {
 
