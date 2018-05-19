@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Titulo</title>
-
+    <title>Title</title>
 </head>
 <body>
-<h1> Lista de Nomes</h1>
-<?php
-    foreach ($registros as $registro){
-        echo $registro. "<br>";
-    }
-?>
+    <form method="post">
+            <input type="text" name="nome">
+            <input type="submit">
+    </form>
 </body>
 </html>
