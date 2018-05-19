@@ -2,7 +2,7 @@
 
 session_start();
 require 'vendor/autoload.php';
-
+require 'lib/Db.php';
 // Teste de autoloader do Tiago
 //$trilha = new Model\Trilha();
 
@@ -48,6 +48,7 @@ $app->group('/admin', function () {
 $app->group('/admin', function () {
     // Trilha
     $this->group('/pergunta', function () {
+        require "model/Pergunta.php";
         $this->get('/', function ($req, $res, $args) {
             require "view/pergunta/form.php";
         });
@@ -55,6 +56,7 @@ $app->group('/admin', function () {
             require "view/pergunta/add.php";
         });
         $this->post('/incluir', function ($req, $res, $args) {
+            Pergunta::cadastrar($_POST);
             echo "Código para acessar model e incluir no banco";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
