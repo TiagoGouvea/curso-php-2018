@@ -23,6 +23,7 @@ $app->get('/', function ($req, $res, $args) {
 $app->group('/admin', function () {
     // Trilha
     $this->group('/trilha', function () {
+        require "model/Trilha.php";
         $this->get('/', function ($req, $res, $args) {
             echo "Listar trilhas";
         });
@@ -30,7 +31,12 @@ $app->group('/admin', function () {
             echo "Form para incluir trilha";
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            echo "Código para acessar model e incluir no banco";
+            //echo "Código para acessar model e incluir no banco";
+            $ok = Trilha::cadastro($_POST);
+            if($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+            else
+                echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             echo "Form para editar a trilha ".$args['id'];

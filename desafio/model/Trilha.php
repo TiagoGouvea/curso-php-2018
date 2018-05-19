@@ -27,17 +27,17 @@ class Trilha{
                 ";
 
             $std = $db->prepare($sql);
-            $std->bindParam(":title", $_POST['title'], PDO::PARAM_STR);
-            $std->bindParam(":description", $_POST['description'], PDO::PARAM_STR);
-            $std->bindParam(":numTrilha", $_POST['numTrilha'], PDO::PARAM_INT);
-            $std->bindParam(":status", $_POST['status'], PDO::PARAM_BOOL);
+            $std->bindParam(":title", $post['title'], PDO::PARAM_STR);
+            $std->bindParam(":description", $post['description'], PDO::PARAM_STR);
+            $std->bindParam(":numTrilha", $post['numTrilha'], PDO::PARAM_INT);
+            $std->bindParam(":status", $post['status'], PDO::PARAM_BOOL);
             $success = $std->execute();
             if ($success)
-                echo "<p>Registro incluído</p>";
+                return ($success);
             else
-                echo "<p>Falha ao incluir o registro</p>";
+                die("Falha ao incluir o registro");
         } catch (Exception $e) {
-            echo "<p>Erro ao de comunicação com o servidor</p>";
+            die("Erro ao de comunicação com o servidor");
         }
     }
 }
