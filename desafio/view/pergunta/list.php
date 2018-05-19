@@ -36,7 +36,7 @@
         </thead>
         <tbody>
         <?php
-        foreach ($result as $item) {
+        foreach ($getAll as $item) {
             echo "
             <tr>
                 <th scope='row'>{$item->id}</th>

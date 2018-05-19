@@ -16,7 +16,7 @@ $app->get('/ola', function ($req, $res, $arg){
 });
 
 $app->GET('/incluir', function ($req, $res, $arg){
-    require "form.php";
+    require "list.php";
 });
 
 $app->POST('/incluir', function ($req, $res, $arg){

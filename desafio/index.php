@@ -45,8 +45,10 @@ $app->group('/admin', function () {
     $this->group('/pergunta', function () {
         require "model/Pergunta.php";
         $this->get('/', function ($req, $res, $args) {
-            require "view/pergunta/form.php";
+            $getAll = Pergunta::getAll();
+            require "view/pergunta/list.php";
         });
+//
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/pergunta/add.php";
         });
@@ -58,6 +60,7 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
+            //$ok = Pergunta::editar($_POST)
             require "view/pergunta/edit.php";
         });
         $this->put('/editar/{id}', function ($req, $res, $args) {

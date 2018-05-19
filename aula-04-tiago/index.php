@@ -23,7 +23,7 @@ $app->get('/ola/{name}', function ($req, $res, $args) {
 });
 
 $app->get('/incluir', function ($req, $res, $args) {
-    require "form.php";
+    require "list.php";
 });
 
 $app->post('/incluir', function ($req, $res, $args) {
