@@ -43,6 +43,56 @@ $app->group('/admin', function () {
     });
 });
 
+// LEO, INSERIR SEU GROUP
+
+$app->group('/admin', function () {
+    // Trilha
+    $this->group('/pergunta', function () {
+        $this->get('/', function ($req, $res, $args) {
+            echo "Listar pergunta";
+        });
+        $this->get('/incluir', function ($req, $res, $args) {
+            echo "Form para incluir pergunta";
+        });
+        $this->post('/incluir', function ($req, $res, $args) {
+            echo "Código para acessar model e incluir no banco";
+        });
+        $this->get('/editar/{id}', function ($req, $res, $args) {
+            echo "Form para editar a pergunta ".$args['id'];
+        });
+        $this->put('/editar/{id}', function ($req, $res, $args) {
+            echo "Código para acessar model e alterar a pergunta $args[id] no banco";
+        });
+        $this->delete('/excluir/{id}', function ($req, $res, $args) {
+            echo "Excluir a pergunta ".$args['id'];
+        });
+    });
+});
+
+$app->group('/admin', function () {
+    // Trilha
+    $this->group('/opcao', function () {
+        $this->get('/', function ($req, $res, $args) {
+            echo "Listar pergunta";
+        });
+        $this->get('/incluir', function ($req, $res, $args) {
+            echo "Form para incluir pergunta";
+        });
+        $this->post('/incluir', function ($req, $res, $args) {
+            echo "Código para acessar model e incluir no banco";
+        });
+        $this->get('/editar/{id}', function ($req, $res, $args) {
+            echo "Form para editar a pergunta ".$args['id'];
+        });
+        $this->put('/editar/{id}', function ($req, $res, $args) {
+            echo "Código para acessar model e alterar a pergunta $args[id] no banco";
+        });
+        $this->delete('/excluir/{id}', function ($req, $res, $args) {
+            echo "Excluir a pergunta ".$args['id'];
+        });
+    });
+});
+
 $app->run();
 
 //var_dump($_SERVER);
