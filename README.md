@@ -25,6 +25,7 @@ A partir daqui é essencial você saber em qual pasta seu servidor está servido
 -  [PHP Certification Study Guide](http://www.zend.com/en/services/certification/php-certification-study-guide), livro oficial da Zend que pode ser comprado por U$19,95. É o melhor material na minha opinião.
 - [PHP do jeito certo](http://br.phptherightway.com/) guia online com boas práticas.
 - [PHP Notes for Professionals](http://book.goalkicker.com/PHPBook/) - livro super detalhado de PHP;
+- [Desenvolvimento web com PHP e MySQL](https://www.casadocodigo.com.br/products/livro-php-mysql) - livro da Casa do Código em Português.
 
 ### Fontes de atualização
 
