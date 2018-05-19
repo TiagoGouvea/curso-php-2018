@@ -48,8 +48,9 @@
                     </thead>
                     <tbody>
                     <?php
-                        foreach ($result as $item) {
-                            echo "
+                        if (isset($result)) {
+                            foreach ($result as $item) {
+                                echo "
                                 <tr>
                                     <th scope='row'>{$item->id}</th>
                                     <td>{$item->ordem}</td>
@@ -59,6 +60,9 @@
                                     <td><a class='btn btn-outline-secondary' role='button' href='delete.php?id=$item->id'>Excluir</a></td>
                                 </tr>
                             ";
+                            }
+                        } else {
+                            $result = 'Sem registro';
                         }
                     ?>
                     </tbody>
