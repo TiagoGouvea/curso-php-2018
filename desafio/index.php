@@ -70,23 +70,28 @@ $app->group('/admin', function () {
 
     // Trilha
     $this->group('/opcao', function () {
+        require "model/Opcao.php";
         $this->get('/', function ($req, $res, $args) {
             echo "Listar pergunta";
         });
         $this->get('/incluir', function ($req, $res, $args) {
-            echo "Form para incluir pergunta";
+            require "view/opcao/form.php";
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            echo "Código para acessar model e incluir no banco";
+             $ok= Opcao::cadastrar($_POST);
+            if($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
+            else
+                echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a pergunta ".$args['id'];
+            echo "Form para editar a pergunta " . $args['id'];
         });
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a pergunta $args[id] no banco";
         });
         $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a pergunta ".$args['id'];
+            echo "Excluir a pergunta " . $args['id'];
         });
     });
 });
