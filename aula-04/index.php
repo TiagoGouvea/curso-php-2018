@@ -9,7 +9,14 @@ require 'vendor/autoload.php';
 //$faker = \Faker\Factory::create();
 //echo "Olá ".$faker->name;
 
-$app = new Slim\App;
+$configuration = [
+    'settings' => [
+        'displayErrorDetails' => true,
+    ],
+];
+$container = new \Slim\Container($configuration);
+
+$app = new Slim\App($container);
 
 $app->get('/ola/{name}', function ($req, $res, $args) {
     echo "Olá " . $args['name'];
@@ -20,14 +27,11 @@ $app->get('/incluir', function ($req, $res, $args) {
 });
 
 $app->post('/incluir', function ($req, $res, $args) {
-    $_SESSION['nomes'][] = $_POST['nome'];
-    if (!isset($_SESSION['posts']))
-        $_SESSION['posts'] = 0;
-    $_SESSION['posts']++;
+    Nome::incluir($_POST['nome']); // <<<<<<<<<<<<
 });
 
 $app->get('/listar', function ($req, $res, $args) {
-    $registros = $_SESSION['nomes'];
+    $registros = Nome::getAll(); // <<<<<<<<<<<<
     require "list.php";
 });
 
