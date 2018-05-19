@@ -2,6 +2,7 @@
 
 session_start();
 require 'vendor/autoload.php';
+require 'model/Fases.php';
 
 $configuration = [
     'settings' => [
@@ -38,21 +39,21 @@ $app->group('/admin', function () {
             echo "Excluir a trilha ".$args['id'];
         });
     });
-});
-
-// LEO, INSERIR SEU GROUP
-
-$app->group('/admin', function () {
+    // LEO, INSERIR SEU GROUP
     // Trilha
     $this->group('/fases', function () {
         $this->get('/', function ($req, $res, $args) {
-            echo "Listar fases";
+            $registros = Fases::getAll();
+            require 'view/fases/list.php';
+
         });
         $this->get('/incluir', function ($req, $res, $args) {
-            echo "Form para incluir fases";
+            require 'view/fases/formAdd.html';
+
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            echo "Código para acessar model e incluir no banco";
+            Fases::incluir($_POST);
+            var_dump($_POST);
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             echo "Form para editar a fases ".$args['id'];
@@ -65,6 +66,7 @@ $app->group('/admin', function () {
         });
     });
 });
+
 
 $app->run();
 
