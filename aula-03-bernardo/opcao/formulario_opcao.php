@@ -1,12 +1,12 @@
 <?php
 
 
-require 'conexao.php';
+require 'conexao_opcao.php';
 
 if(count($_POST)>0) {
     try {
 // Salvar ele no banco de dados
-        $sql = "insert into opcao (titulo,correta, ativa) values (:titulo,:correta,:ativa)";
+        $sql = "insert into opcao (titulo,correta,ativa) values (:titulo,:correta,:ativa)";
         $std = $db->prepare($sql);
         $std->bindParam(":titulo", $_POST['titulo'], PDO::PARAM_STR);
         $std->bindParam(":correta", $_POST['correta'], PDO::PARAM_BOOL);
@@ -37,7 +37,7 @@ else{
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
-    <title>Opção</title>
+    <title>Inserir opção</title>
 </head>
 <body>
 <form method="post">
