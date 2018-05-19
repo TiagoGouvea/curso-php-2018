@@ -3,7 +3,11 @@
 require 'conexao.php';
 
     try {
-        $sql = 'SELECT * FROM pergunta';
+        $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+                FROM
+                  pergunta AS p
+                LEFT JOIN
+                  opcao AS o ON o.id = p.id_fase';
         $std = $db->prepare($sql);
         $success = $std->execute();
 
@@ -47,6 +51,7 @@ require 'conexao.php';
         <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Fase</th>
             <th scope="col">Título</th>
             <th scope="col">Tipo</th>
             <th scope="col">Status</th>
@@ -59,6 +64,7 @@ require 'conexao.php';
         echo "
             <tr>
                 <th scope='row'>{$item->id}</th>
+                <td>{$item->id_fase}</td>
                 <td>{$item->titulo}</td>
                 <td>{$item->tipo}</td>
                 <td>{$item->ativa}</td>

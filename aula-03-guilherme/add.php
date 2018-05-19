@@ -6,6 +6,25 @@ if (count($_POST) > 0) {
 
     $erro = null;
 
+    try {
+        $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+                FROM
+                  opcao AS p
+                LEFT JOIN
+                  opcao AS o ON o.id = p.id_fase';
+        $std = $db->prepare($sql);
+        $success = $std->execute();
+
+        if ($success) {
+            $result = $std->fetchAll(PDO::FETCH_OBJ);
+        } else {
+            echo "Erro na busca";
+        }
+
+    } catch (Exception $e) {
+        var_dump($e);
+    }
+
     if (empty($_POST['titulo'] )) {
         $erro = "Título vazio";
     } else if (empty($_POST['tipo'] )) {
@@ -54,7 +73,7 @@ if (count($_POST) > 0) {
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-        <title>Hello, world!</title>
+        <title>Cadastrar Questionários</title>
     </head>
     <body>
     <div class="container">
@@ -64,6 +83,15 @@ if (count($_POST) > 0) {
     </div>
     <div class="container">
         <form method="post">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Fase relacionada</label>
+                <select class="form-control">
+                    <option selected>Fases</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="formGroupExampleInput">Titulo</label>
                 <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
@@ -85,12 +113,10 @@ if (count($_POST) > 0) {
                 </div>
             </div>
         <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
         <a href="index.php">
-            <button type="submit" class="btn btn-primary">Voltar</button>
-        </a>
+            <button class="btn btn-primary disabled">Voltar</button></a>
+        </form>
     </div>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
