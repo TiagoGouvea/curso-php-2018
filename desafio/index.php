@@ -3,6 +3,9 @@
 session_start();
 require 'vendor/autoload.php';
 
+// Teste de autoloader do Tiago
+//$trilha = new Model\Trilha();
+
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
