@@ -85,9 +85,21 @@ Orientação a Objeto
 
 # Aula 2
 
-#
 - Classes e objetos - estáticas, interface
 - Namespaces*
+
+# Aula 3
+
+## Erros e exceções
+- Formulários HTML
+- SQL
+
+- API
+- Upload de arquivos
+- htaccess e url amigáveis
+
+# Aula 4
+
 - [Autoloader](http://php.net/autoload)
 - [Composer](https://getcomposer.org/)
 
@@ -100,18 +112,9 @@ Orientação a Objeto
 
 ### Controller
 
-
-# Aula 3
-
-## Erros e exceções
-- Formulários HTML
-- SQL
 - Sessões
-- API
-- Upload de arquivos
-- htaccess e url amigáveis
 
-# Aula 4
+# Aula 5
 
 ## Servidores e Publicação
 
@@ -120,7 +123,5 @@ Orientação a Objeto
 FTP
 Integração Contínua
 Virtualização - Vagrant, Docker
-
-# Aula 4
 
 # Aula 6

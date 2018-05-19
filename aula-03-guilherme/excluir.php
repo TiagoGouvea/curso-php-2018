@@ -2,7 +2,24 @@
 
 require 'conexao.php';
 
+$erro = null;
 
+try {
+    // Salvar ele no banco de dados
+
+    $sql = "DELETE FROM `pergunta` WHERE `id` = :var1";
+    $std = $db->prepare($sql);
+    $std->bindParam(":var1", $_GET['id'], PDO::PARAM_INT);
+    $success = $std->execute();
+
+    if ($success) {
+        $erro =  "Registro excluido!";
+    } else {
+        $erro =  "Erro ao excluir registro";
+    }
+} catch (Exception $e) {
+    $erro = "Erro ao excluir registro";
+}
 
 ?>
 <!doctype html>
@@ -15,48 +32,19 @@ require 'conexao.php';
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Excluir Questionário</title>
 </head>
-<body>
-<div class="container">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#">Cadastrar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Alterar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Consultar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Excluir</a>
-        </li>
-    </ul>
-    <form method="post">
-        <div class="form-group">
-            <label for="formGroupExampleInput">Titulo</label>
-            <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
-        </div>
-        <div class="form-group">
-            <label for="formGroupExampleInput2">Tipo</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" name="tipo" placeholder="Tipo">
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-2">Status:</div>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1" name="ativo" value="1">
-                    <label class="form-check-label" for="gridCheck1">
-                        Ativo
-                    </label>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+<body class="container">
+<div >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Questionários</a>
+    </nav>
 </div>
-</form>
+<div class="alert alert-danger" role="alert">
+    <?php echo $erro ?>
+</div>
+    <a href="index.php"><button type="button" class="btn btn-primary">Voltar</button></a>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

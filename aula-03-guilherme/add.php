@@ -6,6 +6,25 @@ if (count($_POST) > 0) {
 
     $erro = null;
 
+    try {
+        $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+                FROM
+                  opcao AS p
+                LEFT JOIN
+                  opcao AS o ON o.id = p.id_fase';
+        $std = $db->prepare($sql);
+        $success = $std->execute();
+
+        if ($success) {
+            $result = $std->fetchAll(PDO::FETCH_OBJ);
+        } else {
+            echo "Erro na busca";
+        }
+
+    } catch (Exception $e) {
+        var_dump($e);
+    }
+
     if (empty($_POST['titulo'] )) {
         $erro = "Título vazio";
     } else if (empty($_POST['tipo'] )) {
@@ -39,13 +58,6 @@ if (count($_POST) > 0) {
             $erro
         </div>";
     }
-
-
-//    <div class="alert alert-danger" role="alert">
-//        This is a danger alert—check it out!
-//    </div>
-
-
 }
 
     ?>
@@ -61,28 +73,28 @@ if (count($_POST) > 0) {
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-        <title>Hello, world!</title>
+        <title>Cadastrar Questionários</title>
     </head>
     <body>
     <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Cadastrar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Alterar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Consultar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Excluir</a>
-            </li>
-        </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Questionários</a>
+        </nav>
+    </div>
+    <div class="container">
         <form method="post">
             <div class="form-group">
+                <label for="formGroupExampleInput">Fase relacionada</label>
+                <select class="form-control">
+                    <option selected>Fases</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="formGroupExampleInput">Titulo</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo" required>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Tipo</label>
@@ -100,9 +112,11 @@ if (count($_POST) > 0) {
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a href="index.php">
+            <button class="btn btn-primary disabled">Voltar</button></a>
+        </form>
     </div>
-    </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
