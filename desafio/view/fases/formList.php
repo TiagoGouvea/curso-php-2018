@@ -10,7 +10,12 @@
 
         foreach ($registros as $registro) {
             var_dump($registro);
-            echo "<p>$registro->title</p>";
+            echo "
+                <p>$registro[title]</p>
+                <p>$registro[description]</p>
+                <p>$registro[numFase]</p>
+                <p>$registro[status]</p>
+            ";
         }
 
         ?>
