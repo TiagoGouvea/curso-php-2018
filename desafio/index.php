@@ -34,8 +34,32 @@ $app->group('/admin', function () {
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a trilha $args[id] no banco";
         });
-        $this->del('/excluir/{id}', function ($req, $res, $args) {
+        $this->delete('/excluir/{id}', function ($req, $res, $args) {
             echo "Excluir a trilha ".$args['id'];
+        });
+    });
+});
+
+$app->group('/admin', function () {
+    // Trilha
+    $this->group('/fases', function () {
+        $this->get('/', function ($req, $res, $args) {
+            echo "Listar fases";
+        });
+        $this->get('/incluir', function ($req, $res, $args) {
+            echo "Form para incluir fases";
+        });
+        $this->post('/incluir', function ($req, $res, $args) {
+            echo "Código para acessar model e incluir no banco";
+        });
+        $this->get('/editar/{id}', function ($req, $res, $args) {
+            echo "Form para editar a fases ".$args['id'];
+        });
+        $this->put('/editar/{id}', function ($req, $res, $args) {
+            echo "Código para acessar model e alterar a fases $args[id] no banco";
+        });
+        $this->delete('/excluir/{id}', function ($req, $res, $args) {
+            echo "Excluir a fases ".$args['id'];
         });
     });
 });
