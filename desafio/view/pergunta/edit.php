@@ -68,12 +68,9 @@
     <button type="submit" class="btn btn-primary">Enviar</button>
     </div>
 </form>
-<a href="index.php">
-    <button type="" class="btn btn-primary">Voltar</button>
-</a>
-<div class="alert alert-danger" role="alert">
-    <?php echo $erro ?>
-</div>
+<!--<div class="alert alert-danger" role="alert">-->
+<!--    <?php //echo $erro ?> -->
+<!--</div>-->
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
