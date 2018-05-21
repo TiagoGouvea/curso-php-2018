@@ -89,7 +89,7 @@ class Pergunta{
         try {
             // Salvar ele no banco de dados
 
-            $sql = "DELETE FROM `perguntsa` WHERE `ida` = :var1";
+            $sql = "DELETE FROM `pergunta` WHERE `id` = :var1";
             $std = $db->prepare($sql);
             $std->bindParam(":var1", $id, PDO::PARAM_INT);
             $success = $std->execute();
