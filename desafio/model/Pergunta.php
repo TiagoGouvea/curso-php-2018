@@ -8,7 +8,7 @@ class Pergunta{
     public $tipo;
     public $ativa;
 
-    static function cadastro($post){
+    static function add($post){
         global $db;
         try {
 
@@ -41,6 +41,63 @@ class Pergunta{
 
         } catch (Exception $e) {
             var_dump($e);
+        }
+    }
+
+    static function getOne($id){
+        global $db;
+        try {
+            $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+                FROM
+                  pergunta AS p
+                LEFT JOIN
+                  opcao AS o ON o.id = p.id_fase
+                  WHERE p.id = :var1';
+            $std = $db->prepare($sql);
+            $std->bindParam(":var1", $id, PDO::PARAM_INT);
+            $success = $std->execute();
+
+            return $result = $std->fetchAll(PDO::FETCH_OBJ);
+
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+    }
+
+    static function edit($id){
+        global $db;
+        $titulo = $_POST['titulo'];
+        $id_fase = $_POST['id_fase'];
+        $tipo = $_POST['tipo'];
+        if (($_POST['ativo']) === "on") { $ativo = 1; } else { $ativo = 0; }
+
+        try {
+            $sql = "UPDATE pergunta SET titulo = '$titulo', tipo = '$tipo', ativa = '$ativo'
+    WHERE pergunta.id = {$id}";
+            $std = $db->prepare($sql);
+
+            return $success = $std->execute();
+
+        } catch (Exception $e) {
+            $erro = "Erro ao atualizar os registro";
+        }
+
+    }
+
+    static function delete($id){
+        global $db;
+        try {
+            // Salvar ele no banco de dados
+
+            $sql = "DELETE FROM `perguntsa` WHERE `ida` = :var1";
+            $std = $db->prepare($sql);
+            $std->bindParam(":var1", $id, PDO::PARAM_INT);
+            $success = $std->execute();
+
+            return $success;
+
+        } catch (Exception $e) {
+            return $e;
         }
     }
 
