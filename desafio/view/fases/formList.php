@@ -3,21 +3,66 @@
     <head>
         <meta charset="UTF-8">
         <title>List</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                window.setTimeout(function() {
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+                        $(this).remove();
+                    });
+                }, 5000);
+
+            });
+        </script>
     </head>
     <body>
-        <h1>Lista de Fases</h1>
-        <?php
-
-        foreach ($registros as $registro) {
-            var_dump($registro);
-            echo "
-                <p>$registro[title]</p>
-                <p>$registro[description]</p>
-                <p>$registro[numFase]</p>
-                <p>$registro[status]</p>
-            ";
-        }
-
-        ?>
+        <div>
+            <div class="header">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Fases</a>
+                    <a class="navbar-brand" href="incluir">Adicionar</a>
+                </nav>
+            </div>
+            <div class="container">
+                <div class="content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ordem</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Ativo</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        if (isset($result)) {
+                            foreach ($result as $item) {
+                                echo "
+                                <tr>
+                                    <th scope='row'>{$item->id}</th>
+                                    <td>{$item->ordem}</td>
+                                    <td>{$item->titulo}</td>
+                                    <td>{$item->ativa}</td>
+                                    <td><a class='btn btn-outline-secondary' role='button' href='editar/$item->id'>Alterar</a></td>
+                                    <td><a class='btn btn-outline-secondary' role='button' href='delete?id=$item->id'>Excluir</a></td>
+                                </tr>
+                            ";
+                            }
+                        } else {
+                            $result = 'Sem registro';
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
