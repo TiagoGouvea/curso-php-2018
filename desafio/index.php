@@ -52,20 +52,21 @@ $app->group('/admin', function () {
     // Fases
     $this->group('/fases', function () {
         $this->get('/', function ($req, $res, $args) {
-            $registros = Fases::getAll();
-            require 'view/fases/list.php';
-
+            $result = Fases::getAll();
+            require 'view/fases/formList.php';
         });
         $this->get('/incluir', function ($req, $res, $args) {
             require 'view/fases/formAdd.html';
-
         });
         $this->post('/incluir', function ($req, $res, $args) {
             Fases::incluir($_POST);
-            var_dump($_POST);
+//            var_dump($_POST);
+            $result = Fases::getAll();
+            require 'view/fases/formList.php';
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a fases ".$args['id'];
+//            echo "Form para editar a fases ".$args['id'];
+            Fases::add($args['id']);
         });
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a fases $args[id] no banco";
