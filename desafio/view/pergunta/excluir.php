@@ -17,9 +17,11 @@
     </nav>
 </div>
 <div class="alert alert-danger" role="alert">
-    <?php echo $erro ?>
+    <?php echo $e ?>
 </div>
-    <a href="index.php"><button type="button" class="btn btn-primary">Voltar</button></a>
+    <a href="/curso-php-2018/curso-php-2018/desafio/admin/pergunta/">
+        <button type="button" class="btn btn-primary">Voltar</button>
+    </a>
 
 
 <!-- Optional JavaScript -->
