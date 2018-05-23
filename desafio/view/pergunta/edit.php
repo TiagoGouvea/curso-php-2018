@@ -14,7 +14,7 @@
 <body class="container">
 <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Questionários</a>
+        <a class="navbar-brand" href="inicio">Questionários</a>
     </nav>
 </div class = "container">
 <form method="post">
@@ -54,11 +54,8 @@
                 <input class="form-check-input" type="checkbox"
                        id="gridCheck1" name="ativo" <?php
                 foreach ($result as $item) {
-                    if ($item->ativa === "on") {
-                        echo "checked";
-                    }
-                }
-                ?>>
+                    if ($item->ativa === "on") { echo "checked"; }
+                } ?>>
                 <label class="form-check-label" for="gridCheck1">
                     Ativo
                 </label>

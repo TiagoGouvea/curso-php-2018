@@ -82,11 +82,11 @@ $app->group('/admin', function () {
     // Perguntas
     $this->group('/pergunta', function () {
         require "model/Pergunta.php";
-        $this->get('/', function ($req, $res, $args) {
+        $this->get('/inicio', function ($req, $res, $args) {
             $getAll = Pergunta::getAll();
             require "view/pergunta/list.php";
         });
-//
+
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/pergunta/add.php";
         });

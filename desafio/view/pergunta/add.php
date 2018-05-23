@@ -15,7 +15,7 @@
     <body>
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Questionários</a>
+            <a class="navbar-brand" href="inicio">Questionários</a>
         </nav>
     </div>
     <div class="container">

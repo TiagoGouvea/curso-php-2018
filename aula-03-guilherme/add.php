@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 require 'conexao.php';
 
@@ -73,7 +73,7 @@ if (count($_POST) > 0) {
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-        <title>Cadastrar Questionários</title>
+        <title>Cadastrar Questionários do desafío</title>
     </head>
     <body>
     <div class="container">
