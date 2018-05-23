@@ -4,18 +4,6 @@
         <meta charset="UTF-8">
         <title>List</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                window.setTimeout(function() {
-                    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
-                        $(this).remove();
-                    });
-                }, 5000);
-
-            });
-        </script>
     </head>
     <body>
         <div>
@@ -51,7 +39,7 @@
                                     <td>{$item->titulo}</td>
                                     <td>{$item->ativa}</td>
                                     <td><a class='btn btn-outline-secondary' role='button' href='editar/$item->id'>Alterar</a></td>
-                                    <td><a class='btn btn-outline-secondary' role='button' href='delete?id=$item->id'>Excluir</a></td>
+                                    <td><a class='btn btn-outline-secondary' role='button' href='excluir/$item->id'>Excluir</a></td>
                                 </tr>
                             ";
                             }

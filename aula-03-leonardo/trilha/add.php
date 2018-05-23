@@ -3,9 +3,9 @@
 
     if (count($_POST) > 0) {
         if (count($_GET) > 0) {
-            // echo "<pre>";
-            // var_dump($_POST);
-            // echo "</pre>";   
+             echo "<pre>";
+             var_dump($_POST);
+             echo "</pre>";
             $title = $_POST['title'];
             $description = $_POST['description'];
             $order = $_POST['numFase'];

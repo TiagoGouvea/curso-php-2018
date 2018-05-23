@@ -16,12 +16,6 @@
         public $status;
 
         public static function incluir($post) {
-//            echo "
-//                <p>{$post['title']}</p>
-//                <p>{$post['description']}</p>
-//                <p>{$post['order']}</p>
-//                <p>{$post['status']}</p>
-//            " ;
             global $db;
 
             try {
@@ -66,7 +60,7 @@
             }
         }
 
-        public function getAll() {
+        public static function getAll() {
             global $db;
 
             try {
@@ -76,7 +70,6 @@
 
                 if ($success) {
                     $result = $std->fetchAll(PDO::FETCH_OBJ);
-//                    var_dump($result);
                 } else {
                     $result = "<p>Erro na busca</p>";
                 }
@@ -86,7 +79,7 @@
             return $result;
         }
 
-        public function add($id) {
+        public static function add($id) {
             global $db;
 
             try {
@@ -96,7 +89,6 @@
 
                 if ($success) {
                     $result = $std->fetchAll(PDO::FETCH_OBJ);
-//                    var_dump($result);
                     require 'view/fases/formEdit.php';
                 } else {
                     echo "
@@ -120,7 +112,85 @@
             }
         }
 
-        public function put($put) {
-            var_dump($put);
+        public static function edit($put) {
+            global $db;
+
+            if ($put['status'] == 'on') {
+                $status = 1;
+            } else
+                $status = 0;
+            try {
+                $sql = "UPDATE fase SET titulo = '{$put['title']}', conteudo = '{$put['description']}', ordem = '{$put['order']}', ativa = '{$status}' WHERE id='{$put['id']}'";
+                $std = $db->prepare($sql);
+                $success = $std->execute();
+
+                if ($success)
+                    echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert' id='alert'>
+                            Fase alterada com sucesso.
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+
+                else
+                    echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert' id='alert'>
+                            Falha ao alterar o registro.
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+            } catch (Exception $e) {
+                echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert' id='alert'>
+                            Erro ao acessar o banco de dados!
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+            }
+        }
+
+        public static function delete($id) {
+            global $db;
+
+            try {
+                $sql = 'DELETE FROM fase WHERE id=' . $id;
+                $std = $db->prepare($sql);
+                $success = $std->execute();
+
+                if ($success)
+                    echo "
+                        <div class='alert alert-success alert-dismissible fade show' role='alert' id='alert'>
+                            Fase excluida com sucesso.
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+
+                else
+                    echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert' id='alert'>
+                            Falha ao excluir o registro.
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+            } catch (Exception $e) {
+                echo "
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert' id='alert'>
+                            Erro ao acessar o banco de dados!
+                            <button type='button' class='close' data-dismiss='alert' arial-label='Close'>
+                                <span arial-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                    ";
+            }
         }
     }

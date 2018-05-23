@@ -60,19 +60,22 @@ $app->group('/admin', function () {
         });
         $this->post('/incluir', function ($req, $res, $args) {
             Fases::incluir($_POST);
-//            var_dump($_POST);
             $result = Fases::getAll();
-            require 'view/fases/formList.php';
+            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-//            echo "Form para editar a fases ".$args['id'];
+            //echo "Form para editar a fases ".$args['id'];
             Fases::add($args['id']);
         });
-        $this->put('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a fases $args[id] no banco";
+        $this->post('/editar/{id}', function ($req, $res, $args) {
+            $status = Fases::edit($_POST);
+            $result = Fases::getAll();
+            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
-        $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a fases ".$args['id'];
+        $this->get('/excluir/{id}', function ($req, $res, $args) {
+            Fases::delete($args['id']);
+            $result = Fases::getAll();
+            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
     });
 
