@@ -14,18 +14,19 @@
 <body class="container">
 <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Questionários</a>
+        <a class="navbar-brand" href="inicio">Questionários</a>
     </nav>
 </div class = "container">
 <form method="post">
     <div class="form-group">
         <label for="formGroupExampleInput">Fase relacionada</label>
-        <select class="form-control">
-            <option selected name="id_fase">Fases</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+        <select class="form-control" name="id_fase">
+                <?php foreach ($result as $item)
+                    echo "<option>Fase Selecionada -> {$item->id_fase}</option>";
+                ?>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
         </select>
     </div>
     <div class="form-group">
@@ -54,11 +55,8 @@
                 <input class="form-check-input" type="checkbox"
                        id="gridCheck1" name="ativo" <?php
                 foreach ($result as $item) {
-                    if ($item->ativa === "on") {
-                        echo "checked";
-                    }
-                }
-                ?>>
+                    if ($item->ativa === "on") { echo "checked"; }
+                } ?>>
                 <label class="form-check-label" for="gridCheck1">
                     Ativo
                 </label>

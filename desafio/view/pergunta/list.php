@@ -1,10 +1,9 @@
 <!doctype html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -14,13 +13,9 @@
 <body class="text-center">
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Questionários</a>
+        <a class="navbar-brand" href="inicio">Questionários</a>
+        <a class="navbar-brand" href="incluir">Adicionar</a>
     </nav>
-</div>
-<div>
-    <h4 class="text-center">Cadastro de perguntas para o desafio do código
-        <a href="incluir" class="badge badge-primary">+</a>
-    </h4>
 </div>
 <div class="container">
     <table class="table text-center text-justify">
@@ -37,13 +32,18 @@
         <tbody>
         <?php
         foreach ($getAll as $item) {
+            if(($item->ativa) == 1){
+                $var = "Ativa";
+            } else {
+                $var = "Desativo";
+            }
             echo "
             <tr>
                 <th scope='row'>{$item->id}</th>
                 <td>{$item->id_fase}</td>
                 <td>{$item->titulo}</td>
                 <td>{$item->tipo}</td>
-                <td>{$item->ativa}</td>
+                <td>{$var}</td>
                 <td><a class='btn btn-primary' role='button' href='editar/$item->id'>Alterar</a></td>
                 <td><a class='btn btn-primary' role='button' href='excluir/$item->id'>Excluir</a></td>
             </tr>

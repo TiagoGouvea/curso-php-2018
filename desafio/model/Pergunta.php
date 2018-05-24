@@ -12,11 +12,12 @@ class Pergunta{
         global $db;
         try {
 
-            $sql = "insert into pergunta (titulo, tipo, ativa) values (:var1, :var2, :var3)";
+            $sql = "insert into pergunta (titulo, id_fase, tipo, ativa) values (:var1, :var2, :var3, :var4)";
             $std = $db->prepare($sql);
             $std->bindParam(":var1", $post['titulo'], PDO::PARAM_STR);
-            $std->bindParam(":var2", $post['tipo'], PDO::PARAM_STR);
-            $std->bindParam(":var3", $post['ativo'], PDO::PARAM_BOOL);
+            $std->bindParam(":var2", $post['id_fase'], PDO::PARAM_INT);
+            $std->bindParam(":var3", $post['tipo'], PDO::PARAM_STR);
+            $std->bindParam(":var4", $post['ativo'], PDO::PARAM_BOOL);
             $sucesso = $std->execute();
 
             return $sucesso;
