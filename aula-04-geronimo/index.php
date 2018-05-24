@@ -21,7 +21,7 @@ $app->get('/ola/{name}', function ($req, $res, $args) { // aqui eu declaro as mi
 //______________________________________________________________//
 
 $app->get('/incluir', function ($req, $res, $args) { // aqui eu declaro as minhas rotas
-    require 'form.php'; // aqui usei o html mas normalmente é com php
+    require 'list.php'; // aqui usei o html mas normalmente é com php
 });
 
 

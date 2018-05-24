@@ -1,4 +1,5 @@
 <?php
+
 class Opcao
 {
     static function cadastrar($pergunta)
@@ -17,5 +18,28 @@ class Opcao
             var_dump($e);
 //    die("Erro de conexão com o servidor!");
         }
+    }
+
+    static function listar()
+    {
+        global $db;
+        try {
+            $sql = "SELECT * FROM opcao ORDER BY ordem";
+            $std = $db->prepare($sql);
+            $successo = $std->execute();
+
+            if ($successo) {
+                $resultado = $std->fetchAll(PDO::FETCH_OBJ);
+//                    var_dump($resultado);
+            } else {
+                $resultado = "<p>Erro na busca</p>";
+            }
+        } catch (Exception $e) {
+            $resultado = "<p>Erro ao conectar com o servidor!</p>";
+        }
+        return $resultado;
+
+
+
     }
 }

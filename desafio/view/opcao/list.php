@@ -8,8 +8,8 @@
 <body>
 <h1>Lista de Respostas</h1>
 <?php
-foreach ($respostas as $resposta){
-    echo $registro."<br>";
+foreach ($resultado as $res){
+    echo $resultado."<br>";
 }
 ?>
 

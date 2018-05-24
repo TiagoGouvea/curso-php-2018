@@ -10,7 +10,7 @@ $app->get('/ola', function($req, $res,$arg){
 });
 
 $app->get('/incluir', function($req, $res,$arg){
-    require "form.php";
+    require "list.php";
 });
 
 $app->post('/incluir', function($req, $res,$arg){

@@ -19,7 +19,7 @@
 </div>
 <div>
     <h4 class="text-center">Cadastro de perguntas para o desafio do código
-        <a href="add.php" class="badge badge-primary">+</a>
+        <a href="incluir" class="badge badge-primary">+</a>
     </h4>
 </div>
 <div class="container">
@@ -36,7 +36,7 @@
         </thead>
         <tbody>
         <?php
-        foreach ($result as $item) {
+        foreach ($getAll as $item) {
             echo "
             <tr>
                 <th scope='row'>{$item->id}</th>
@@ -44,8 +44,8 @@
                 <td>{$item->titulo}</td>
                 <td>{$item->tipo}</td>
                 <td>{$item->ativa}</td>
-                <td><a class='btn btn-primary' role='button' href='edit.php?id=$item->id'>Alterar</a></td>
-                <td><a class='btn btn-primary' role='button' href='excluir.php?id=$item->id'>Excluir</a></td>
+                <td><a class='btn btn-primary' role='button' href='editar/$item->id'>Alterar</a></td>
+                <td><a class='btn btn-primary' role='button' href='excluir/$item->id'>Excluir</a></td>
             </tr>
         ";
         }
