@@ -33,19 +33,19 @@ $app->group('/admin', function () {
         $this->post('/incluir', function ($req, $res, $args) {
             //echo "Código para acessar model e incluir no banco";
             $ok = Trilha::cadastro($_POST);
-            if($ok)
+            if ($ok)
                 return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
             else
                 echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a trilha ".$args['id'];
+            echo "Form para editar a trilha " . $args['id'];
         });
         $this->put('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a trilha $args[id] no banco";
         });
         $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a trilha ".$args['id'];
+            echo "Excluir a trilha " . $args['id'];
         });
     });
 
@@ -96,8 +96,8 @@ $app->group('/admin', function () {
             require "view/pergunta/add.php";
             $ok = Pergunta::add($_POST);
 
-            if($ok) return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
+            if ($ok) return $res->withStatus(302)
+                ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
             else echo "Erro ao incluir";
         });
 
@@ -108,7 +108,7 @@ $app->group('/admin', function () {
 
         $this->post('/editar/{id}', function ($req, $res, $args) {
             require "view/pergunta/edit.php";
-            if(count($_POST)){
+            if (count($_POST)) {
                 Pergunta::edit($args['id']);
                 return $res->withStatus(302)
                     ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
@@ -117,10 +117,10 @@ $app->group('/admin', function () {
 
         $this->get('/excluir/{id}', function ($req, $res, $args) {
             $erro = Pergunta::delete($args['id']);
-            if($erro){
+            if ($erro) {
                 return $res->withStatus(302)
                     ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
-            } else{
+            } else {
                 $e = "Erro ao Excluir os dados";
                 require "view/pergunta/excluir.php";
             }
@@ -129,27 +129,40 @@ $app->group('/admin', function () {
 
     // Opções
     $this->group('/opcao', function () {
+        require "model/Opcao.php";
+
         $this->get('/', function ($req, $res, $args) {
-            $registros = Fases::getAll();
-            require 'view/fases/list.php';
+            $resultado = Opcao::listar();
+            require "view/opcao/list.php";
 
         });
         $this->get('/incluir', function ($req, $res, $args) {
-            require 'view/fases/formAdd.html';
+            require "view/opcao/form.php";
 
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            Fases::incluir($_POST);
-            var_dump($_POST);
+            $ok = Opcao::cadastrar($_POST);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
+            else
+                echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a fases ".$args['id'];
+            $resultado = Opcao::listar($args['id']);
+          //  echo "Form para editar a Opção " . $args['id'];
+            require "view/opcao/edit.php";
         });
-        $this->put('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a fases $args[id] no banco";
+        $this->post('/editar/{id}', function ($req, $res, $args) {
+            echo "Código para acessar model e alterar a opção $args[id] no banco";
+            $ok = Opcao::editar($_POST);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
+            else
+                echo "Erro ao incluir";
+
         });
         $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a fases ".$args['id'];
+            echo "Excluir a fases " . $args['id'];
         });
     });
 });
