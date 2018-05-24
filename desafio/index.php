@@ -17,7 +17,7 @@ $container = new \Slim\Container($configuration);
 $app = new Slim\App($container);
 
 $app->get('/', function ($req, $res, $args) {
-    echo "Aqui terá um site";
+    require "view/Home.php";
 });
 
 $app->group('/admin', function () {
@@ -88,14 +88,16 @@ $app->group('/admin', function () {
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
+            $var = Pergunta::getAll();
             require "view/pergunta/add.php";
         });
 
         $this->post('/incluir', function ($req, $res, $args) {
             require "view/pergunta/add.php";
             $ok = Pergunta::add($_POST);
+
             if($ok) return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
             else echo "Erro ao incluir";
         });
 
@@ -109,7 +111,7 @@ $app->group('/admin', function () {
             if(count($_POST)){
                 Pergunta::edit($args['id']);
                 return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
             }
         });
 
@@ -117,7 +119,7 @@ $app->group('/admin', function () {
             $erro = Pergunta::delete($args['id']);
             if($erro){
                 return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
             } else{
                 $e = "Erro ao Excluir os dados";
                 require "view/pergunta/excluir.php";
