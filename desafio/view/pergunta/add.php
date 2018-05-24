@@ -22,11 +22,13 @@
         <form method="post">
             <div class="form-group">
                 <label for="formGroupExampleInput">Fase relacionada</label>
-                <select class="form-control">
-                    <option selected>Fases</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                <select class="form-control" name="id_fase">
+<!--                    --><?php //foreach ($var as $item)
+//                        echo "<option value='{$item->id_fase}'>{$item->id_fase}</option>";
+//                    ?>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
                 </select>
             </div>
             <div class="form-group">
