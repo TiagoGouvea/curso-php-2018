@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Resposta</title>
+    <title>Opções</title>
 
 </head>
 <body>
-<h2>Selecione a resposta:</h2>
+<h2>Selecione a opção:</h2>
 <form method="post">
 
     Resposta:

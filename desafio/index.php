@@ -154,12 +154,14 @@ $app->group('/admin', function () {
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a opção $args[id] no banco";
-            $ok = Opcao::editar($_POST);
+            $ok = Opcao::editar($_POST, $args['id']);
+            var_dump($_POST, $args['id']);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
+
             else
                 echo "Erro ao incluir";
-
+            var_dump($ok);
         });
         $this->delete('/excluir/{id}', function ($req, $res, $args) {
             echo "Excluir a fases " . $args['id'];

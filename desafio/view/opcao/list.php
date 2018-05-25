@@ -14,7 +14,7 @@
 <body class="text-center">
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="incluir">Incluir respostas</a>
+        <a class="navbar-brand" href="incluir">Incluir opções</a>
 
     </nav>
 </div>
@@ -23,7 +23,7 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Resposta</th>
+            <th scope="col">Opção</th>
             <th scope="col">Status 1</th>
             <th scope="col">Status 2</th>
             <th scope="col" colspan="2">Ações</th>
@@ -36,7 +36,7 @@
                 $ativa = "Ativa";
                 $correta= "Correta";
             } else {
-                $ativa = "Desativo";
+                $ativa = " ";
                 $correta= " ";
             }
             echo "

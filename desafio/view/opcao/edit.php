@@ -14,19 +14,13 @@
 <body class="container">
 <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="inicio">Respostas</a>
+        <a class="navbar-brand" href="inicio">Opções</a>
     </nav>
 </div class = "container">
 <form method="post">
     <div class="form-group">
-        <label for="formGroupExampleInput">Resposta</label>
-        <select class="form-control" name="titulo">
-            <?php foreach ($resultado as $item)
-                echo "<option>  {$item->titulo}</option>";
-            ?>
-
-
-        </select>
+        <label for="formGroupExampleInput">Opções</label>
+        <input type="text"  class="form-control" name="titulo">
     </div>
 
     <div class="form-group row">
@@ -34,12 +28,7 @@
         <div class="col-sm-10">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox"
-                       id="gridCheck1" name="correta" <?php
-                foreach ($resultado as $item) {
-                    if ($item->correta === "on") {
-                        echo "checked";
-                    }
-                } ?>>
+                       id="gridCheck1" name="correta"
                 <label class="form-check-label" for="gridCheck1">
                     Ativa
                 </label>
@@ -51,12 +40,7 @@
         <div class="col-sm-10">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox"
-                       id="gridCheck1" name="ativa" <?php
-                foreach ($resultado as $item) {
-                    if ($item->ativa === "on") {
-                        echo "checked";
-                    }
-                } ?>>
+                       id="gridCheck1" name="ativa"
                 <label class="form-check-label" for="gridCheck1">
                     Correta
                 </label>
