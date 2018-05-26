@@ -12,50 +12,68 @@ class Pergunta{
         global $db;
         try {
 
-            $sql = "insert into pergunta (titulo, id_fase, tipo, ativa) values (:var1, :var2, :var3, :var4)";
+            $sql = "insert into pergunta (tituloPergunta, id_fase, tipo, ativa) values (:var1, :var2, :var3, :var4)";
             $std = $db->prepare($sql);
-            $std->bindParam(":var1", $post['titulo'], PDO::PARAM_STR);
+            $std->bindParam(":var1", $post['tituloPergunta'], PDO::PARAM_STR);
             $std->bindParam(":var2", $post['id_fase'], PDO::PARAM_INT);
             $std->bindParam(":var3", $post['tipo'], PDO::PARAM_STR);
             $std->bindParam(":var4", $post['ativo'], PDO::PARAM_BOOL);
-            $sucesso = $std->execute();
+            $sucess = $std->execute();
 
-            return $sucesso;
+            return $sucess;
 
         } catch (Exception $e) {
             die("Erro ao Cadastrar");
         }
     }
 
-    static function getAll(){
+    static function getAllorOne($var){
         global $db;
-        try {
-            $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+        if(isset($var)){
+            try {
+                $sql = 'SELECT p.id, p.id_fase, f.titulo, p.tituloPergunta, p.tipo, p.ativa
                 FROM
                   pergunta AS p
                 LEFT JOIN
-                  opcao AS o ON o.id = p.id_fase';
-            $std = $db->prepare($sql);
-            $success = $std->execute();
+                  fase AS f ON f.id = p.id_fase
+                  WHERE p.id = :var1';
+                $std = $db->prepare($sql);
+                $std->bindParam(":var1", $var, PDO::PARAM_INT);
+                $success = $std->execute();
 
-            return $result = $std->fetchAll(PDO::FETCH_OBJ);
+                return $result = $std->fetchAll(PDO::FETCH_OBJ);
 
-        } catch (Exception $e) {
-            var_dump($e);
+            } catch (Exception $e) {
+                var_dump($e);
+            }
+        } else {
+
+            try {
+                $sql = 'SELECT p.id, p.id_fase, f.titulo ,p.tituloPergunta, p.tipo, p.ativa
+                    FROM
+                      pergunta AS p
+                    LEFT JOIN
+                      fase AS f ON f.id = p.id_fase';
+                $std = $db->prepare($sql);
+                $success = $std->execute();
+
+                return $result = $std->fetchAll(PDO::FETCH_OBJ);
+
+            } catch (Exception $e) {
+                var_dump($e);
+            }
         }
     }
 
-    static function getOne($id){
+    static function getOne(){
         global $db;
         try {
-            $sql = 'SELECT p.id, p.id_fase, p.titulo, p.tipo, p.ativa
+            $sql = 'SELECT distinct p.id_fase, f.titulo
                 FROM
                   pergunta AS p
                 LEFT JOIN
-                  opcao AS o ON o.id = p.id_fase
-                  WHERE p.id = :var1';
+                  fase AS f ON f.id = p.id_fase';
             $std = $db->prepare($sql);
-            $std->bindParam(":var1", $id, PDO::PARAM_INT);
             $success = $std->execute();
 
             return $result = $std->fetchAll(PDO::FETCH_OBJ);
@@ -67,13 +85,14 @@ class Pergunta{
 
     static function edit($id){
         global $db;
-        $titulo = $_POST['titulo'];
+        $titulo = $_POST['tituloPergunta'];
         $id_fase = $_POST['id_fase'];
         $tipo = $_POST['tipo'];
         if (($_POST['ativo']) === "on") { $ativo = 1; } else { $ativo = 0; }
 
         try {
-            $sql = "UPDATE pergunta SET titulo = '$titulo', tipo = '$tipo', ativa = '$ativo'
+            $sql = "UPDATE pergunta 
+                      SET tituloPergunta = '$titulo', `id_fase` = '$id_fase', tipo = '$tipo', ativa = '$ativo'
     WHERE pergunta.id = {$id}";
             $std = $db->prepare($sql);
 
