@@ -23,17 +23,14 @@
             <div class="form-group">
                 <label for="formGroupExampleInput">Fase relacionada</label>
                 <select class="form-control" name="id_fase">
-<!--                    --><?php //foreach ($var as $item)
-//                        echo "<option value='{$item->id_fase}'>{$item->id_fase}</option>";
-//                    ?>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    <?php foreach ($var2 as $item)
+                        echo "<option value='{$item->id_fase}'>{$item->titulo}</option>";
+                    ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput">Titulo</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" name="titulo" placeholder="Titulo">
+                <input type="text" class="form-control" id="formGroupExampleInput" name="tituloPergunta" placeholder="Titulo">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2">Tipo</label>

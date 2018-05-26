@@ -15,6 +15,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="inicio">Questionários</a>
         <a class="navbar-brand" href="incluir">Adicionar</a>
+        <a class="navbar-brand" href="/curso-php-2018/curso-php-2018/desafio/admin/fases/">Adicionar Fase</a>
     </nav>
 </div>
 <div class="container">
@@ -23,7 +24,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Fase</th>
-            <th scope="col">Título</th>
+            <th scope="col">Nome da Fase</th>
+            <th scope="col">Título da Pergunta</th>
             <th scope="col">Tipo</th>
             <th scope="col">Status</th>
             <th scope="col" colspan="2">Ações</th>
@@ -42,6 +44,7 @@
                 <th scope='row'>{$item->id}</th>
                 <td>{$item->id_fase}</td>
                 <td>{$item->titulo}</td>
+                <td>{$item->tituloPergunta}</td>
                 <td>{$item->tipo}</td>
                 <td>{$var}</td>
                 <td><a class='btn btn-primary' role='button' href='editar/$item->id'>Alterar</a></td>

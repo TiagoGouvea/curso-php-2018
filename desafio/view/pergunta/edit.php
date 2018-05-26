@@ -19,11 +19,13 @@
 </div class = "container">
 <form method="post">
     <div class="form-group">
-        <label for="formGroupExampleInput">Fase relacionada</label>
+        <label for="formGroupExampleInput">
+            <?php
+                foreach ($result as $item)
+                echo "Fase atualmente Selecionada: {$item->id_fase}, {$item->titulo}";
+            ?>
+        </label>
         <select class="form-control" name="id_fase">
-                <?php foreach ($result as $item)
-                    echo "<option>Fase Selecionada -> {$item->id_fase}</option>";
-                ?>
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -32,9 +34,9 @@
     <div class="form-group">
         <label for="formGroupExampleInput">Titulo</label>
         <input type='text' class='form-control'
-               id='formGroupExampleInput' name='titulo' value="<?php
+               id='formGroupExampleInput' name='tituloPergunta' value="<?php
         foreach ($result as $item) {
-            print($item->titulo);
+            print($item->tituloPergunta);
         }
         ?>">
     </div>
