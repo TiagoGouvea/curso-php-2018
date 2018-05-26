@@ -149,14 +149,17 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            $resultado = Opcao::listar($args['id']);
+            $resultado = Opcao::listarPorId($args['id']);
           //  echo "Form para editar a Opção " . $args['id'];
+            //var_dump($resultado);
             require "view/opcao/edit.php";
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
             echo "Código para acessar model e alterar a opção $args[id] no banco";
+            //var_dump($_POST, $args['id']);
+            //exit();
             $ok = Opcao::editar($_POST, $args['id']);
-            var_dump($_POST, $args['id']);
+
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
 
