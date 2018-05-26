@@ -15,11 +15,9 @@ try {
     $db = new PDO(
         $dsn,
         $_ENV["db_user"],
-        $_ENV["db_password"], array(
-            PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION
-        )
+        $_ENV["db_password"]
     );
-    $numRows = $db->exec("SELECT CURRENT_TIMESTAMP");
+//    $numRows = $db->exec("SELECT CURRENT_TIMESTAMP");
 } catch (PDOException $e) {
     $e->getMessage();
     echo "<html>Erro de conexão com o servidor!<br>Mensagem: " . $e->getMessage();

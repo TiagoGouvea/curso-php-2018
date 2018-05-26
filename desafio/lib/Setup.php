@@ -32,9 +32,10 @@ session_start();
 
 // Carregar classes e arquivos necessários para accesso aos dados
 require 'lib/Db.php';
+require "model/Trilha.php";
 require 'model/Fases.php';
-require 'model/Opcao.php';
-require 'model/Pergunta.php';
-require 'model/Trilha.php';
+//require 'model/Opcao.php';
+//require 'model/Pergunta.php';
+//require 'model/Trilha.php';
 
 ?>

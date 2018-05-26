@@ -193,4 +193,18 @@
                     ";
             }
         }
+
+        public static function getByTrilha($idTrilha)
+        {
+            global $db;
+            try {
+                $sql = 'SELECT * FROM fase where id_trilha=:id_trilha';
+                $std = $db->prepare($sql);
+                $std->bindParam(":id_trilha", $idTrilha, PDO::PARAM_INT);
+                $success = $std->execute();
+                return $std->fetchAll(PDO::FETCH_OBJ);
+            } catch (Exception $e) {
+                var_dump($e);
+            }
+        }
     }

@@ -29,39 +29,75 @@ $app->group('/admin', function () {
 
     // Home do Admin
     $this->get('/', function ($req, $res, $args) {
-        require "viewAdmin/home.php";
+        echo "ok!";
+//        require "viewAdmin/home.php";
     });
 
+    // Endpoint de teste (do twig)
     $this->get('/teste/', function ($req, $res, $args) {
-        $conteudo = $this->view->fetch('admin/teste.twig',["nome"=>"Tiago Gouvea"]);
+        $conteudo = $this->view->fetch(
+            'admin/teste.twig',
+            ["nome"=>"Tiago Gouvea"]
+        );
         return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
     });
 
     // Trilha
     $this->group('/trilha', function () {
-        require "model/Trilha.php";
         $this->get('/', function ($req, $res, $args) {
-            echo "Listar trilhas";
+            $registros = Trilha::getAllOrOne();
+            $conteudo = $this->view->fetch(
+                'trilha/lista.twig',
+                ["registros"=>$registros]
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
+
         $this->get('/incluir', function ($req, $res, $args) {
-            echo "Form para incluir trilha";
+            $conteudo = $this->view->fetch(
+                'trilha/form.twig'
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
         $this->post('/incluir', function ($req, $res, $args) {
             //echo "Código para acessar model e incluir no banco";
             $ok = Trilha::cadastro($_POST);
             if ($ok)
-                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/trilha/");
             else
                 echo "Erro ao incluir";
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            echo "Form para editar a trilha " . $args['id'];
+            $registro = Trilha::getAllOrOne($args['id']);
+            $conteudo = $this->view->fetch(
+                'trilha/form.twig',
+                ['registro'=>$registro]
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
-        $this->put('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a trilha $args[id] no banco";
+        $this->post('/editar/{id}', function ($req, $res, $args) {
+            $ok = Trilha::salvar($args['id'],$_POST);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/trilha/");
+            else
+                echo "Erro ao salvar";
+
         });
-        $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a trilha " . $args['id'];
+        $this->get('/excluir/{id}', function ($req, $res, $args) {
+            $ok = Trilha::excluir($args['id']);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/trilha/");
+            else
+                echo "Erro ao salvar";
+        });
+
+        $this->get('/{id}/fases/', function ($req, $res, $args) {
+            $registros = Fases::getByTrilha($args['id']);
+            $conteudo = $this->view->fetch(
+                'fases/lista.twig',
+                ["registros"=>$registros]
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
     });
 

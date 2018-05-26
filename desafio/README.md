@@ -1,14 +1,14 @@
 # Para hoje
 
-- [ ] Estamos no meio do caminho, temos que acostumar com mudanças
-- [ ] dotEnv
-- [ ] Twig
-- [ ] Adequar novo formato com view em Trilhas
-  - [ ] Mover requires das classes para setup (ainda não é definitivo)
-  - [ ] Injetar conteúdo na view
-- [ ] CRUD completo da Trilha
-- [ ] Listar Desafios da trilha
-  - [ ] CRUD completo do desafio 
+- [x] Estamos no meio do caminho, temos que acostumar com mudanças
+- [x] dotEnv - development (debug) - production (online)
+- [x] Twig
+- [x] Adequar novo formato com view em Trilhas
+  - [x] Mover requires das classes para setup (ainda não é definitivo)
+  - [x] Injetar conteúdo na view
+- [x] CRUD completo da Trilha
+- [x] Listar Desafios da trilha
+  - [x] CRUD completo da fase 
   
 - [ ] Cada um atualizar seus códigos e deixar seus CRUDs funcionando
 - [ ] Alguem procurar como implementar autenticação nesse admin
