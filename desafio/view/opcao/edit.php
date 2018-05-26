@@ -20,7 +20,7 @@
 <form method="post">
     <div class="form-group">
         <label for="formGroupExampleInput">Opções</label>
-        <input type="text"  class="form-control" name="titulo">
+        <input type="text" value="<?php echo $resultado->titulo ?>" class="form-control" name="titulo">
     </div>
 
     <div class="form-group row">

@@ -32,11 +32,15 @@
         <tbody>
         <?php
         foreach ($resultado as $item) {
-            if(($item->ativa) == 1 && ($item->correta)==1){
+
+            if(($item->ativa)){
                 $ativa = "Ativa";
-                $correta= "Correta";
             } else {
                 $ativa = " ";
+
+            }if(($item->correta)){
+                $correta= "Correta";
+            } else {
                 $correta= " ";
             }
             echo "
