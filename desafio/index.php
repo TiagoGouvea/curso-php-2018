@@ -83,12 +83,12 @@ $app->group('/admin', function () {
     $this->group('/pergunta', function () {
         require "model/Pergunta.php";
         $this->get('/inicio', function ($req, $res, $args) {
-            $getAll = Pergunta::getAll();
+            $getAll = Pergunta::getAllorOne($args[null]);
             require "view/pergunta/list.php";
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
-            $var = Pergunta::getAll();
+            $var = Pergunta::getAllorOne($args[null]);
             require "view/pergunta/add.php";
         });
 
@@ -98,11 +98,11 @@ $app->group('/admin', function () {
 
             if ($ok) return $res->withStatus(302)
                 ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
-            else echo "Erro ao incluir";
+                else echo "Erro ao incluir";
         });
 
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            $result = Pergunta::getOne($args['id']);
+            $result = Pergunta::getAllorOne($args['id']);
             require "view/pergunta/edit.php";
         });
 
