@@ -1,7 +1,15 @@
 <?php
+/**
+ * Não é a forma ideal ainda!
+ *
+ * Arquivo responsável por "compartilhar" a conexão do banco.
+ * O correto seria o slim fornecer acesso à conexão com o banco
+ * ao invés de acessarmos via global.
+ */
 
 // Conectar no banco de dados
 try {
+
     global $db;
     $dsn = 'mysql:dbname=' . $_ENV["db_name"] . ';host=' . $_ENV["db_host"];
     $db = new PDO(

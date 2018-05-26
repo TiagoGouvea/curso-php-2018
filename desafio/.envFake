@@ -1,0 +1,9 @@
+# Dados dde conexão com banco de dados
+db_host=167.99.11111.184
+db_post=3306
+db_name=desafiado
+db_user=tiagoGouvea
+db_password=minhaSenha
+
+# Indica se estamos em ambiente de desenvolvimento
+env_debug=true

@@ -1,5 +1,9 @@
 # Curso de PHP - com Tiago Gouvêa
 
+## Projeto final
+
+Estamos desenvolvendo o projeto final do treinamento, que é o [Desafio do Código](/desafio).
+
 ## Instalações
 
 Para começarmos precisamos instalar três coisas: o git, uma IDE e um pacote com os servidores:
@@ -94,7 +98,6 @@ Orientação a Objeto
 ## Erros e exceções
 - Formulários HTML
 - SQL
-
 - API
 - Upload de arquivos
 - htaccess e url amigáveis
@@ -115,14 +118,12 @@ Orientação a Objeto
 
 - Sessões
 
-# Aula 5
+# Próximas aulas
 
 ## Servidores e Publicação
 
 [Heroku](https://www.heroku.com/php)
 
-FTP
-Integração Contínua
-Virtualização - Vagrant, Docker
-
-# Aula 6
+- FTP
+- Integração Contínua
+- Virtualização - Vagrant, Docker

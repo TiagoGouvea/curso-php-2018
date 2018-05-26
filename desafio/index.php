@@ -1,12 +1,11 @@
 <?php
+/*
+ * Arquivo principal do projeto.
+ * Todas requisições passam por aqui.
+*/
 
-session_start();
 require 'vendor/autoload.php';
 require 'lib/Setup.php';
-
-require 'model/Fases.php';
-require 'lib/Db.php';
-;
 // Teste de autoloader do Tiago
 //$trilha = new Model\Trilha();
 
@@ -19,11 +18,25 @@ $container = new \Slim\Container($configuration);
 
 $app = new Slim\App($container);
 
+// Carregar dependencias do Slim
+require 'lib/Dependencias.php';
+
 $app->get('/', function ($req, $res, $args) {
     require "view/Home.php";
 });
 
 $app->group('/admin', function () {
+
+    // Home do Admin
+    $this->get('/', function ($req, $res, $args) {
+        require "viewAdmin/home.php";
+    });
+
+    $this->get('/teste/', function ($req, $res, $args) {
+        $conteudo = $this->view->fetch('admin/teste.twig',["nome"=>"Tiago Gouvea"]);
+        return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+    });
+
     // Trilha
     $this->group('/trilha', function () {
         require "model/Trilha.php";
@@ -176,7 +189,4 @@ $app->group('/admin', function () {
     });
 });
 
-
 $app->run();
-
-//var_dump($_SERVER);
