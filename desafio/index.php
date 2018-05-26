@@ -89,6 +89,7 @@ $app->group('/admin', function () {
 
         $this->get('/incluir', function ($req, $res, $args) {
             $var = Pergunta::getAllorOne($args[null]);
+            $var2 = Pergunta::getOne();
             require "view/pergunta/add.php";
         });
 
