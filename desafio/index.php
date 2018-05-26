@@ -91,6 +91,7 @@ $app->group('/admin', function () {
                 echo "Erro ao salvar";
         });
 
+        // Fases - em Trilhas
         $this->get('/{id}/fases/', function ($req, $res, $args) {
             $registros = Fases::getByTrilha($args['id']);
             $conteudo = $this->view->fetch(
@@ -103,10 +104,12 @@ $app->group('/admin', function () {
 
     // Fases
     $this->group('/fases', function () {
-        $this->get('/', function ($req, $res, $args) {
-            $result = Fases::getAll();
-            require 'view/fases/formList.php';
-        });
+
+        // Esta rota não faz mas sentido
+//        $this->get('/', function ($req, $res, $args) {
+//            $result = Fases::getAll();
+//            require 'view/fases/formList.php';
+//        });
         $this->get('/incluir', function ($req, $res, $args) {
             require 'view/fases/formAdd.html';
         });
@@ -129,15 +132,27 @@ $app->group('/admin', function () {
             $result = Fases::getAll();
             return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
+
+        // Perguntas em Fases
+        $this->get('/{id}/perguntas/', function ($req, $res, $args) {
+            $registros = []; // Ajustar > Fases::getByTrilha($args['id']);
+            $conteudo = $this->view->fetch(
+                'fases/lista.twig',
+                ["registros"=>$registros]
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+        });
+
     });
 
     // Perguntas
     $this->group('/pergunta', function () {
         require "model/Pergunta.php";
-        $this->get('/inicio', function ($req, $res, $args) {
-            $getAll = Pergunta::getAllorOne($args[null]);
-            require "view/pergunta/list.php";
-        });
+        // Esta rota não faz mas sentido
+//        $this->get('/inicio', function ($req, $res, $args) {
+//            $getAll = Pergunta::getAllorOne($args[null]);
+//            require "view/pergunta/list.php";
+//        });
 
         $this->get('/incluir', function ($req, $res, $args) {
             $var = Pergunta::getAllorOne($args[null]);
@@ -178,17 +193,28 @@ $app->group('/admin', function () {
                 require "view/pergunta/excluir.php";
             }
         });
+
+        // Opções em Pergunta
+        $this->get('/{id}/opcoes/', function ($req, $res, $args) {
+            $registros = []; // Ajustar
+            $conteudo = $this->view->fetch(
+                'fases/lista.twig',
+                ["registros"=>$registros]
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+        });
     });
 
     // Opções
     $this->group('/opcao', function () {
         require "model/Opcao.php";
 
-        $this->get('/', function ($req, $res, $args) {
-            $resultado = Opcao::listar();
-            require "view/opcao/list.php";
-
-        });
+        // Esta rota não faz mas sentido
+//        $this->get('/', function ($req, $res, $args) {
+//            $resultado = Opcao::listar();
+//            require "view/opcao/list.php";
+//
+//        });
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/opcao/form.php";
 

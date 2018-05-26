@@ -14,6 +14,31 @@
 - [ ] Alguem procurar como implementar autenticação nesse admin
 - [ ] Alguem fazer a view da raiz / exibindo uma lista de trilhas para o usuário seguir
 
+
+# Novas rotas
+
+```
+/admin/trilha/ - lista as trilhas   
+
+/admin/trilha/2/editar/ - edita a trilha 2
+/admin/trilha/2/excluir/ - apaga a trilha 2
+/admin/trilha/2/fase/ - exibe as fases da trilha 2
+/admin/trilha/2/fase-incluir/ - inclui uma nova fase na trilha 2   
+
+/admin/fase/4/editar/ - edita a fase 4
+/admin/fase/4/excluir/ - apaga a fase 4
+/admin/fase/4/pergunta/ - exibe as perguntas da fase 4
+/admin/fase/4/pergunta-incluir/ - inclui uma nova pergunta na fase 4   
+
+/admin/pergunta/20/editar/ - edita a pergunta 20
+/admin/pergunta/20/excluir/ - apaga a pergunta 20
+/admin/pergunta/20/opcao/ - exibe as opções da pergunta 20
+/admin/pergunta/20/opcao-incluir/ - inclui uma nova opcao na pergunta 20   
+
+/admin/opcao/3/editar/ - edita a opcao 3
+/admin/opcao/3/excluir/ - apaga a opcao 3
+```
+
 # Próximas melhorias
 
 - Controller: mover códigos do index.php para controllers. Cada grupo, será um controller.
