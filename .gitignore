@@ -7,4 +7,6 @@
 .DS_Store
 */vendor/
 
+.env
+
 arquivoignorado.txt

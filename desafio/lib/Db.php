@@ -3,13 +3,18 @@
 // Conectar no banco de dados
 try {
     global $db;
+    $dsn = 'mysql:dbname=' . $_ENV["db_name"] . ';host=' . $_ENV["db_host"];
     $db = new PDO(
-        'mysql:dbname=desafio;host=167.99.233.184',
-        'client',
-        'TiagoGouvea'
+        $dsn,
+        $_ENV["db_user"],
+        $_ENV["db_password"], array(
+            PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION
+        )
     );
-} catch (Exception $e) {
-//    var_dump($e);
-    die("Erro de conexão com o servidor!");
+    $numRows = $db->exec("SELECT CURRENT_TIMESTAMP");
+} catch (PDOException $e) {
+    $e->getMessage();
+    echo "<html>Erro de conexão com o servidor!<br>Mensagem: " . $e->getMessage();
+    die();
 }
-
+?>

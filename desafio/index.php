@@ -2,8 +2,11 @@
 
 session_start();
 require 'vendor/autoload.php';
+require 'lib/Setup.php';
+
 require 'model/Fases.php';
 require 'lib/Db.php';
+;
 // Teste de autoloader do Tiago
 //$trilha = new Model\Trilha();
 
