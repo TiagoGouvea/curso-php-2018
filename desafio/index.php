@@ -33,6 +33,8 @@ $app->group('/admin', function () {
 //        require "viewAdmin/home.php";
     });
 
+// -------------<>--------------- //
+
     // Endpoint de teste (do twig)
     $this->get('/teste/', function ($req, $res, $args) {
         $conteudo = $this->view->fetch(
@@ -41,6 +43,8 @@ $app->group('/admin', function () {
         );
         return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
     });
+
+// -------------<>--------------- //
 
     // Trilha
     $this->group('/trilha', function () {
@@ -102,6 +106,8 @@ $app->group('/admin', function () {
         });
     });
 
+    // -------------<>--------------- //
+
     // Fases
     $this->group('/fases', function () {
 
@@ -144,6 +150,8 @@ $app->group('/admin', function () {
         });
 
     });
+
+    // -------------<>--------------- //
 
     // Perguntas
     $this->group('/pergunta', function () {
@@ -204,6 +212,8 @@ $app->group('/admin', function () {
             return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
     });
+
+    // -------------<>--------------- //
 
     // Opções
     $this->group('/opcao', function () {
