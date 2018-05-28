@@ -155,31 +155,31 @@ $app->group('/admin', function () {
 
     // Perguntas
     $this->group('/pergunta', function () {
-        require "model/Pergunta.php";
-        // Esta rota não faz mas sentido
-//        $this->get('/inicio', function ($req, $res, $args) {
-//            $getAll = Pergunta::getAllorOne($args[null]);
-//            require "view/pergunta/list.php";
-//        });
+         //variável conteúdo referece ao local onde sera inserido o conteúdo
+        $this->get('/', function ($req, $res, $args) {
+            $registros = Pergunta::getAllOrOne($args[null]);
+            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros"=>$registros]);
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+        });
 
         $this->get('/incluir', function ($req, $res, $args) {
-            $var = Pergunta::getAllorOne($args[null]);
-            $var2 = Pergunta::getOne();
-            require "view/pergunta/add.php";
+            $var2 = Pergunta::getNomeFases();
+            $conteudo = $this->view->fetch('pergunta/add.twig', ["registros"=>$var2]);
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
 
         $this->post('/incluir', function ($req, $res, $args) {
-            require "view/pergunta/add.php";
             $ok = Pergunta::add($_POST);
 
             if ($ok) return $res->withStatus(302)
-                ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
+                ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
                 else echo "Erro ao incluir";
         });
 
         $this->get('/editar/{id}', function ($req, $res, $args) {
             $result = Pergunta::getAllorOne($args['id']);
-            require "view/pergunta/edit.php";
+            $conteudo = $this->view->fetch('pergunta/edit.twig', ['result'=>$result]);
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
 
         $this->post('/editar/{id}', function ($req, $res, $args) {
@@ -187,7 +187,7 @@ $app->group('/admin', function () {
             if (count($_POST)) {
                 Pergunta::edit($args['id']);
                 return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
+                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
             }
         });
 
@@ -195,7 +195,7 @@ $app->group('/admin', function () {
             $erro = Pergunta::delete($args['id']);
             if ($erro) {
                 return $res->withStatus(302)
-                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/inicio");
+                    ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
             } else {
                 $e = "Erro ao Excluir os dados";
                 require "view/pergunta/excluir.php";
