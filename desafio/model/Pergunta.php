@@ -65,7 +65,7 @@ class Pergunta{
         }
     }
 
-    static function getOne(){
+    static function getNomeFases(){
         global $db;
         try {
             $sql = 'SELECT distinct p.id_fase, f.titulo
