@@ -21,7 +21,6 @@
     <table class="table text-center text-justify">
         <thead class="thead-dark">
         <tr>
-            {#<th scope="col">#</th>#}
             <th scope="col">Fase</th>
             <th scope="col">Nome da Fase</th>
             <th scope="col">Título da Pergunta</th>
@@ -33,7 +32,6 @@
         <tbody>
         {% for registros in registros %}
             <tr>
-                {#<th scope='row'>{{ registros.id }}</th>#}
                     <td>{{ registros.id_fase }}</td>
                     <td>{{ registros.titulo }}</td>
                     <td>{{ registros.tituloPergunta }}</td>
