@@ -22,25 +22,24 @@ $app = new Slim\App($container);
 require 'lib/Dependencias.php';
 
 $app->get('/', function ($req, $res, $args) {
-    require "view/Home.php";
+    $registros = Trilha::getAllOrOne();
+    $conteudo = $this->view->fetch('site/home.twig', ["registros"=>$registros]);
+    return $this->view->render($res,'site/layout.twig',["conteudo"=>$conteudo]);
 });
 
 $app->group('/admin', function () {
 
-    // Home do Admin
+    // Home do Admin - Com a view de Login/Senha -
+    // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
-        echo "ok!";
-//        require "viewAdmin/home.php";
+        return $this->view->render($res,'admin/login.twig');
     });
 
 // -------------<>--------------- //
 
     // Endpoint de teste (do twig)
     $this->get('/teste/', function ($req, $res, $args) {
-        $conteudo = $this->view->fetch(
-            'admin/teste.twig',
-            ["nome"=>"Tiago Gouvea"]
-        );
+        $conteudo = $this->view->fetch('admin/teste.twig', ["nome"=>"Tiago Gouvea"]);
         return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
     });
 
