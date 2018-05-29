@@ -115,9 +115,21 @@ $app->group('/admin', function () {
 //            $result = Fases::getAll();
 //            require 'view/fases/formList.php';
 //        });
+
+//     ---------- MÉTODO ANTIGO ----------- //
+//        $this->get('/incluir', function ($req, $res, $args) {
+//            require 'view/fases/formAdd.html';
+//        });
+
+//     ---------- MÉTODO NOVO ------------- //
+
         $this->get('/incluir', function ($req, $res, $args) {
-            require 'view/fases/formAdd.html';
+            $conteudo = $this->view->fetch(
+                'fases/form.twig'
+            );
+            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
+//      ----------------------------------- //
         $this->post('/incluir', function ($req, $res, $args) {
             Fases::incluir($_POST);
             $result = Fases::getAll();
