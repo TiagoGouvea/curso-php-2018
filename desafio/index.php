@@ -188,13 +188,13 @@ $app->group('/admin', function () {
                 else echo "Erro ao incluir";
         });
 
-        $this->get('/editar/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/editar', function ($req, $res, $args) {
             $result = Pergunta::getAllorOne($args['id']);
             $conteudo = $this->view->fetch('pergunta/edit.twig', ['result'=>$result]);
             return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
 
-        $this->post('/editar/{id}', function ($req, $res, $args) {
+        $this->post('/{id}/editar', function ($req, $res, $args) {
             require "view/pergunta/edit.php";
             if (count($_POST)) {
                 Pergunta::edit($args['id']);
@@ -203,7 +203,7 @@ $app->group('/admin', function () {
             }
         });
 
-        $this->get('/excluir/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/excluir', function ($req, $res, $args) {
             $erro = Pergunta::delete($args['id']);
             if ($erro) {
                 return $res->withStatus(302)
@@ -216,11 +216,8 @@ $app->group('/admin', function () {
 
         // Opções em Pergunta
         $this->get('/{id}/opcoes/', function ($req, $res, $args) {
-            $registros = []; // Ajustar
-            $conteudo = $this->view->fetch(
-                'fases/lista.twig',
-                ["registros"=>$registros]
-            );
+            $resultado = Opcao::listarPorId($args['id']);
+            $conteudo = $this->view->fetch( 'opcao/lista.php', ["registros"=>$resultado]);
             return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
     });
