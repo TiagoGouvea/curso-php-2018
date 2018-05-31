@@ -30,7 +30,7 @@ try {
                         <td>$dado->nome</td>
                         <td>$dado->idade</td>
                         <td>
-                            <a href='edit.php?id=$dado->id'>editar</a>
+                            <a href='edit.twig?id=$dado->id'>editar</a>
                             <a href='del.php?id=$dado->id'>excluir</a>
                         </td>
                     </tr>";

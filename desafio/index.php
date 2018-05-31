@@ -110,40 +110,44 @@ $app->group('/admin', function () {
     // Fases
     $this->group('/fases', function () {
 
-        // Esta rota não faz mas sentido
-//        $this->get('/', function ($req, $res, $args) {
-//            $result = Fases::getAll();
-//            require 'view/fases/formList.php';
-//        });
-
-//     ---------- MÉTODO ANTIGO ----------- //
-//        $this->get('/incluir', function ($req, $res, $args) {
-//            require 'view/fases/formAdd.html';
-//        });
-
-//     ---------- MÉTODO NOVO ------------- //
+        $this->get('/', function($req, $res, $args) {
+            $registros = Fases::getAll();
+            $conteudo = $this->view->fetch(
+                'fases/lista.twig', ["registros"=>$registros]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
+        });
 
         $this->get('/incluir', function ($req, $res, $args) {
+            $registros = Fases::getTrilhas();
             $conteudo = $this->view->fetch(
-                'fases/form.twig'
+              'fases/form.twig', ["registros"=>$registros]
             );
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
         });
-//      ----------------------------------- //
+
         $this->post('/incluir', function ($req, $res, $args) {
             Fases::incluir($_POST);
             $result = Fases::getAll();
             return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
+
         $this->get('/editar/{id}', function ($req, $res, $args) {
-            //echo "Form para editar a fases ".$args['id'];
-            Fases::add($args['id']);
+            $registros = Fases::add($args['id']);
+            $conteudo = $this->view->fetch(
+                'fases/edit.twig', ["registros"=>$registros]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
         });
+
         $this->post('/editar/{id}', function ($req, $res, $args) {
-            $status = Fases::edit($_POST);
+            echo "<pre>";
+            var_dump($_POST);
+            $status = Fases::edit($_POST, $args['id']);
             $result = Fases::getAll();
             return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
         });
+
         $this->get('/excluir/{id}', function ($req, $res, $args) {
             Fases::delete($args['id']);
             $result = Fases::getAll();
@@ -152,11 +156,8 @@ $app->group('/admin', function () {
 
         // Perguntas em Fases
         $this->get('/{id}/perguntas/', function ($req, $res, $args) {
-            $registros = []; // Ajustar > Fases::getByTrilha($args['id']);
-            $conteudo = $this->view->fetch(
-                'fases/lista.twig',
-                ["registros"=>$registros]
-            );
+            $registros = Pergunta::getAllorOne($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
+            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros"=>$registros]);
             return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
 
