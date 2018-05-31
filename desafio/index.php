@@ -214,9 +214,9 @@ $app->group('/admin', function () {
         });
 
         // Opções em Pergunta
-        $this->get('/{id}/opcoes/', function ($req, $res, $args) {
-            $resultado = Opcao::listarPorId($args['id']);
-            $conteudo = $this->view->fetch( 'opcao/lista.php', ["registros"=>$resultado]);
+        $this->get('/opcao/incluir/{id}', function ($req, $res, $args) {
+            $resultado = Pergunta::getOpcoes($args['id']);
+            $conteudo = $this->view->fetch( 'opcao/form.php', ["registros"=>$resultado]);
             return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
         });
     });
