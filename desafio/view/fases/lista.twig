@@ -18,9 +18,8 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Titulo</th>
                             <th scope="col">Ordem</th>
+                            <th scope="col">Titulo</th>
                             <th scope="col">Ativa</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -31,11 +30,14 @@
                         <tbody>
                         {% for registro in registros %}
                             <tr>
-                                <td>{{ registro.id }}</td>
-                                <td>{{ registro.titulo }}</td>
                                 <td>{{ registro.ordem }}</td>
-                                <td>{{ registro.ativa }}</td>
-                                <td><a class='btn btn-outline-secondary' role='button' href='{{ registro.id }}/fases/'>Desafios</a></td>
+                                <td>{{ registro.titulo }}</td>
+                                {% if (registro.ativa == 1) %}
+                                    <td>ATIVO</td>
+                                {% else %}
+                                    <td>INATIVO</td>
+                                {% endif %}
+                                <td><a class='btn btn-outline-secondary' role='button' href='{{ registro.id }}/perguntas/'>Desafios</a></td>
                                 <td><a class='btn btn-outline-secondary' role='button' href='editar/{{ registro.id }}'>Alterar</a></td>
                                 <td><a class='btn btn-outline-secondary' role='button' href='excluir/{{ registro.id }}'>Excluir</a></td>
                             </tr>

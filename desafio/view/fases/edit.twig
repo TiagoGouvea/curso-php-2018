@@ -12,9 +12,7 @@
             <div class="form-group">
                 <label for="trilha">Trilhas</label>
                 <select class="form-control" id="trilha" name="trilha" required>
-                    {% for registros in registros %}
-                        <option value="{{ registros.id_trilha }}">{{ registros.titulo_trilha }}</option>
-                    {% endfor %}
+                    <option value="{{ registros.id_trilha }}">{{ registros.titulo_trilha }}</option>
                 </select>
             </div>
             <div class='form-group'>
@@ -28,30 +26,15 @@
             <div class="form-group">
                 <label for="ordem">Número da Fase</label>
                 <select class="form-control" id="numFase" name="order" required>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                    <option>13</option>
-                    <option>14</option>
-                    <option>15</option>
-                    <option>16</option>
-                    <option>17</option>
-                    <option>18</option>
-                    <option>19</option>
-                    <option>20</option>
+                    <option value="{{ registros.ordem }}">{{ registros.ordem }}</option>
                 </select>
             </div>
             <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="ativa" name="ativa" value="1" checked>
+                {% if (registros.ativa == 1) %}
+                    <input type="checkbox" class="form-check-input" id="ativa" name="ativa" value="1" checked>
+                {% else %} }
+                    <input type="checkbox" class="form-check-input" id="ativa" name="ativa" value="0">
+                {% endif %}
                 <label class="form-check-label" for="status">Ativa</label>
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
