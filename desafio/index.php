@@ -224,7 +224,7 @@ $app->group('/admin', function () {
         // Opções em Pergunta
         $this->get('/opcao/incluir/{id}', function ($req, $res, $args) {
             $resultado = Pergunta::getOpcoes($args['id']);
-            $conteudo = $this->view->fetch('opcao/form.php', ["registros" => $resultado]);
+            $conteudo = $this->view->fetch('opcao/form.twig', ["registros" => $resultado]);
             return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
     });
@@ -236,11 +236,12 @@ $app->group('/admin', function () {
         require "model/Opcao.php";
 
         // Esta rota não faz mas sentido
-//        $this->get('/', function ($req, $res, $args) {
-//            $resultado = Opcao::listar();
-//            require "view/opcao/list.php";
-//
-//        });
+       $this->get('/', function ($req, $res, $args) {
+            $resultado = Opcao::listar();
+            $conteudo=$this->view->fetch('opcao/list.twig',['resultado'=>$resultado]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
+
+        });
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/opcao/form.php";
 
