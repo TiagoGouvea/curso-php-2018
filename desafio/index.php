@@ -135,50 +135,30 @@ $app->group('/admin', function () {
     // -------------<>--------------- //
 
     // Fases
-    $this->group('/fases', function () {
+    $this->group('/fase', function () {
 
-        $this->get('/', function ($req, $res, $args) {
-            $registros = Fases::getAll();
-            $conteudo = $this->view->fetch(
-                'fases/lista.twig', ["registros" => $registros]
-            );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->get('/incluir', function ($req, $res, $args) {
-            $registros = Fases::getTrilhas();
-            $conteudo = $this->view->fetch(
-                'fases/form.twig', ["registros" => $registros]
-            );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->post('/incluir', function ($req, $res, $args) {
-            Fases::incluir($_POST);
-            $result = Fases::getAll();
-            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
-        });
-
-        $this->get('/editar/{id}', function ($req, $res, $args) {
-            $registros = Fases::add($args['id']);
+        $this->get('/{id}/editar/', function ($req, $res, $args) {
+            $registros = Fases::get($args['id']);
             $conteudo = $this->view->fetch(
                 'fases/edit.twig', ["registros" => $registros]
             );
             return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
-        $this->post('/editar/{id}', function ($req, $res, $args) {
-            echo "<pre>";
-            var_dump($_POST);
+        $this->post('/{id}/editar/', function ($req, $res, $args) {
             $status = Fases::edit($_POST, $args['id']);
             $result = Fases::getAll();
-            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
+            $urlRedirect = baseGroupUrl('trilha') . $_POST['id_trilha'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
         });
 
-        $this->get('/excluir/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/excluir/', function ($req, $res, $args) {
+            $idTrilha = Fases::get($args['id'])->id_trilha;
+            var_dump($idTrilha);
             Fases::delete($args['id']);
-            $result = Fases::getAll();
-            return $res->withStatus(302)->withHeader("Location", '/curso-php-2018/desafio/admin/fases/');
+
+            $urlRedirect = baseGroupUrl('trilha') .$idTrilha . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
         });
 
         // Perguntas em Fases
@@ -304,8 +284,15 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
             var_dump($ok);
         });
-        $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a fases " . $args['id'];
+        $this->get('/excluir/{id}', function ($req, $res, $args) {
+          //  echo "Excluir a fases " . $args['id'];
+            $ok = Opcao::excluir($args['id']);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", baseGroupUrl("trilha"));
+
+            else
+                echo "Erro ao excluir";
+            var_dump($ok);
         });
     });
 });
@@ -338,7 +325,7 @@ function fetch($app, $groupBaseUrl, $template, $data)
 
 function baseGroupUrl($group)
 {
-    return $_ENV['base_url'] . '/admin/' . $group . '/';
+    return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
 function renderLayout($app, $res, $conteudo)
