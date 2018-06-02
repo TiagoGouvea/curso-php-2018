@@ -291,8 +291,15 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
             var_dump($ok);
         });
-        $this->delete('/excluir/{id}', function ($req, $res, $args) {
-            echo "Excluir a fases " . $args['id'];
+        $this->get('/excluir/{id}', function ($req, $res, $args) {
+          //  echo "Excluir a fases " . $args['id'];
+            $ok = Opcao::excluir($args['id']);
+            if ($ok)
+                return $res->withStatus(302)->withHeader("Location", baseGroupUrl("trilha"));
+
+            else
+                echo "Erro ao excluir";
+            var_dump($ok);
         });
     });
 });
