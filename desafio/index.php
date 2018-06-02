@@ -295,7 +295,7 @@ $app->group('/admin', function () {
             return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
-            require "view/opcao/edit.php";
+
             $ok = Opcao::editar($_POST, $args['id']);
 
             if ($ok)
