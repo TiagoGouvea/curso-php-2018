@@ -21,18 +21,49 @@ $app = new Slim\App($container);
 // Carregar dependencias do Slim
 require 'lib/Dependencias.php';
 
-$app->get('/', function ($req, $res, $args) {
-    $registros = Trilha::getAllOrOne();
-    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
-    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
-});
+//$app->get('/', function ($req, $res, $args) {
+//    $registros = Trilha::getAllOrOne();
+//    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
+//    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
+//});
 
 $app->group('/admin', function () {
+
+    if(!empty($_POST['email']) && !empty($_POST['senha'])){
+        if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
+            $_SESSION["usuario"]=true;
+
+        }
+    }
+
+    if(!isset($_SESSION["usuario"])){
+        require('view/admin/login.twig');
+        die();
+    }
+
+    $this->get('/sair/', function ($req, $res, $args) {
+
+        $_SESSION["usuario"]=null;
+        return $res->withStatus(302)
+            ->withHeader("Location", $_ENV["base_url"]."admin/");
+
+    });
 
     // Home do Admin - Com a view de Login/Senha -
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
-        return $this->view->render($res, 'admin/login.twig');
+
+        return renderLayout($this,$res);
+
+    });
+
+    // Post para login
+    $this->post('/', function ($req, $res, $args) {
+
+
+        return renderLayout($this,$res);
+
+
     });
 
 // -------------<>--------------- //
@@ -53,7 +84,9 @@ $app->group('/admin', function () {
                 'trilha/lista.twig',
                 ["registros" => $registros]
             );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+            return renderLayout($this,$res,$conteudo);
+
+
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
@@ -163,11 +196,19 @@ $app->group('/admin', function () {
 
         // Perguntas em Fases
         $this->get('/{id}/perguntas/', function ($req, $res, $args) {
-            $registros = Pergunta::getAllorOne($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+            $fase = Fases::get($args['id']);
+            $perguntas = Pergunta::getByFase($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
+            $conteudo = fetch(
+                $this,
+                'trilha',
+                'pergunta/list.twig',
+                ["registros" => $perguntas,
+                    "fase" => $fase,
+                    "id_trilha" => $args['id']
+                ]
+            );
+            return renderLayout($this, $res, $conteudo);
         });
-
     });
 
     // -------------<>--------------- //
@@ -222,10 +263,23 @@ $app->group('/admin', function () {
         });
 
         // Opções em Pergunta
-        $this->get('/opcao/incluir/{id}', function ($req, $res, $args) {
-            $resultado = Pergunta::getOpcoes($args['id']);
-            $conteudo = $this->view->fetch('opcao/form.twig', ["registros" => $resultado]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+        $this->get('/opcao/{id}', function ($req, $res, $args) {
+            $pergunta = Pergunta::getAllOrOne($args['id']);
+            $opcao = Opcao::getByPergunta($args['id']);
+            $resultado = fetch(
+                $this,
+                'pergunta',
+                'opcao/list.twig',
+                ["registros" => $opcao,
+                    "trilha" => $pergunta,
+                    "id_trilha" => $args['id']
+                ]
+            );
+            return renderLayout($this, $res, $resultado);
+
+//            $resultado = Pergunta::getOpcoes($args['id']);
+//            $conteudo = $this->view->fetch('opcao/form.php', ["registros" => $resultado]);
+//            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
     });
 
@@ -236,12 +290,11 @@ $app->group('/admin', function () {
         require "model/Opcao.php";
 
         // Esta rota não faz mas sentido
-       $this->get('/', function ($req, $res, $args) {
-            $resultado = Opcao::listar();
-            $conteudo=$this->view->fetch('opcao/list.twig',['resultado'=>$resultado]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
-
-        });
+//        $this->get('/', function ($req, $res, $args) {
+//            $resultado = Opcao::listar();
+//            require "view/opcao/list.php";
+//
+//        });
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/opcao/form.php";
 
@@ -316,12 +369,13 @@ function baseGroupUrl($group)
     return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
-function renderLayout($app, $res, $conteudo)
+function renderLayout($app, $res, $conteudo=null)
 {
+    $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo]
+        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl]
     );
 }
 
