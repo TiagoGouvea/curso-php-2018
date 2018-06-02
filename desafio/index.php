@@ -289,12 +289,8 @@ $app->group('/admin', function () {
     $this->group('/opcao', function () {
         require "model/Opcao.php";
 
-        // Esta rota não faz mas sentido
-//        $this->get('/', function ($req, $res, $args) {
-//            $resultado = Opcao::listar();
-//            require "view/opcao/list.php";
-//
-//        });
+
+
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/opcao/form.php";
 
