@@ -27,6 +27,7 @@
             <th scope="col">Tipo</th>
             <th scope="col">Status</th>
             <th scope="col" colspan="2">Ações</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
                 {% endif %}
                     <td><a class='btn btn-primary' role='button' href='editar/{{ registros.id }}'>Alterar</a></td>
                     <td><a class='btn btn-primary' role='button' href='excluir/{{ registros.id }}'>Excluir</a></td>
+                    <td><a class='btn btn-primary' role='button' href='{{  base_admin_url ~ 'pergunta/'~ registros.id ~ '/opcao/' }}'>Opcao</a></td>
             </tr>
         {% endfor %}
         </tbody>

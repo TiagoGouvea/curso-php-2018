@@ -27,7 +27,7 @@ require 'lib/Dependencias.php';
 //    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
 //});
 
-$app->group('/admin', function() {
+$app->group('/admin', function () {
 
     if(!empty($_POST['email']) && !empty($_POST['senha'])){
         if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
@@ -35,16 +35,16 @@ $app->group('/admin', function() {
         }
     }
 
-    if(!isset($_SESSION["usuario"])){
+    if (!isset($_SESSION["usuario"])) {
         require('view/admin/login.twig');
         die();
     }
 
     $this->get('/sair/', function ($req, $res, $args) {
 
-        $_SESSION["usuario"]=null;
+        $_SESSION["usuario"] = null;
         return $res->withStatus(302)
-            ->withHeader("Location", $_ENV["base_url"]."admin/");
+            ->withHeader("Location", $_ENV["base_url"] . "admin/");
 
     });
 
@@ -80,7 +80,7 @@ $app->group('/admin', function() {
                 'trilha/lista.twig',
                 ["registros" => $registros]
             );
-            return renderLayout($this,$res,$conteudo);
+            return renderLayout($this, $res, $conteudo);
 
 
         });
@@ -186,7 +186,7 @@ $app->group('/admin', function() {
             var_dump($idTrilha);
             Fases::delete($args['id']);
 
-            $urlRedirect = baseGroupUrl('trilha') .$idTrilha . '/fases/';
+            $urlRedirect = baseGroupUrl('trilha') . $idTrilha . '/fases/';
             return $res->withStatus(302)->withHeader("Location", $urlRedirect);
         });
 
@@ -259,7 +259,7 @@ $app->group('/admin', function() {
         });
 
         // Opções em Pergunta
-        $this->get('/opcao/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/opcao/', function ($req, $res, $args) {
             $pergunta = Pergunta::getAllOrOne($args['id']);
             $opcao = Opcao::getByPergunta($args['id']);
             $resultado = fetch(
@@ -304,14 +304,11 @@ $app->group('/admin', function() {
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             $resultado = Opcao::listarPorId($args['id']);
-            //  echo "Form para editar a Opção " . $args['id'];
-            //var_dump($resultado);
-            require "view/opcao/edit.php";
+            $conteudo = $this->view->fetch('opcao/edit.twig', ['result' => $resultado]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a opção $args[id] no banco";
-            //var_dump($_POST, $args['id']);
-            //exit();
+            require "view/opcao/edit.php";
             $ok = Opcao::editar($_POST, $args['id']);
 
             if ($ok)
@@ -322,7 +319,7 @@ $app->group('/admin', function() {
             var_dump($ok);
         });
         $this->get('/excluir/{id}', function ($req, $res, $args) {
-          //  echo "Excluir a fases " . $args['id'];
+            //  echo "Excluir a fases " . $args['id'];
             $ok = Opcao::excluir($args['id']);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", baseGroupUrl("trilha"));
@@ -365,7 +362,7 @@ function baseGroupUrl($group)
     return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
-function renderLayout($app, $res, $conteudo=null)
+function renderLayout($app, $res, $conteudo = null)
 {
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     $usuario = $_SESSION['usuario'];
