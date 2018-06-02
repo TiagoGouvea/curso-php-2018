@@ -196,11 +196,19 @@ $app->group('/admin', function () {
 
         // Perguntas em Fases
         $this->get('/{id}/perguntas/', function ($req, $res, $args) {
-            $registros = Pergunta::getAllorOne($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+            $fase = Fases::get($args['id']);
+            $perguntas = Pergunta::getByFase($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
+            $conteudo = fetch(
+                $this,
+                'trilha',
+                'pergunta/list.twig',
+                ["registros" => $perguntas,
+                    "fase" => $fase,
+                    "id_trilha" => $args['id']
+                ]
+            );
+            return renderLayout($this, $res, $conteudo);
         });
-
     });
 
     // -------------<>--------------- //
