@@ -27,12 +27,11 @@ require 'lib/Dependencias.php';
 //    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
 //});
 
-$app->group('/admin', function () {
+$app->group('/admin', function() {
 
     if(!empty($_POST['email']) && !empty($_POST['senha'])){
         if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
-            $_SESSION["usuario"]=true;
-
+            $_SESSION["usuario"]=$_POST['email'];
         }
     }
 
@@ -53,17 +52,14 @@ $app->group('/admin', function () {
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
 
+
         return renderLayout($this,$res);
 
     });
 
     // Post para login
     $this->post('/', function ($req, $res, $args) {
-
-
         return renderLayout($this,$res);
-
-
     });
 
 // -------------<>--------------- //
@@ -372,10 +368,11 @@ function baseGroupUrl($group)
 function renderLayout($app, $res, $conteudo=null)
 {
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
+    $usuario = $_SESSION['usuario'];
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl]
+        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl, 'usuario'=>$usuario]
     );
 }
 
