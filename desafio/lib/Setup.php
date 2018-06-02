@@ -11,7 +11,7 @@ if (!file_exists($envFile)) {
 }
 $dotenv = new Dotenv\Dotenv($rootFolder);
 $dotenv->load();
-$dotenv->required("db_host", "db_post", "db_name", "db_user", "db_password");
+$dotenv->required("db_host", "db_post", "db_name", "db_user", "db_password", "base_url","env_debug");
 $dsn = getenv("db_host");
 
 // Definir pasta raiz do projeto

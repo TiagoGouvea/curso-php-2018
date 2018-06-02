@@ -69,14 +69,14 @@
             global $db;
             try {
 
-                $sql = "INSERT INTO fase (titulo, conteudo, ordem, ativa, id_trilha) VALUES (:title, :description, :order, :status, :trilha)";
+                $sql = "INSERT INTO fase (titulo, conteudo, ordem, ativa, id_trilha) VALUES (:title, :description, :order, :status, :id_trilha)";
 
                 $std = $db->prepare($sql);
                 $std->bindParam(":title", $post['titulo'], PDO::PARAM_STR);
                 $std->bindParam(":description", $post['descricao'], PDO::PARAM_STR);
                 $std->bindParam(":order", $post['order'], PDO::PARAM_INT);
                 $std->bindParam(":status", $post['ativa'], PDO::PARAM_BOOL);
-                $std->bindParam(":trilha",$post['trilha'], PDO::PARAM_INT);
+                $std->bindParam(":id_trilha",$post['id_trilha'], PDO::PARAM_INT);
 
                 return $std->execute();
 

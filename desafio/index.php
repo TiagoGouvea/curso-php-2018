@@ -23,8 +23,8 @@ require 'lib/Dependencias.php';
 
 $app->get('/', function ($req, $res, $args) {
     $registros = Trilha::getAllOrOne();
-    $conteudo = $this->view->fetch('site/home.twig', ["registros"=>$registros]);
-    return $this->view->render($res,'site/layout.twig',["conteudo"=>$conteudo]);
+    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
+    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
 });
 
 $app->group('/admin', function () {
@@ -32,15 +32,15 @@ $app->group('/admin', function () {
     // Home do Admin - Com a view de Login/Senha -
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
-        return $this->view->render($res,'admin/login.twig');
+        return $this->view->render($res, 'admin/login.twig');
     });
 
 // -------------<>--------------- //
 
     // Endpoint de teste (do twig)
     $this->get('/teste/', function ($req, $res, $args) {
-        $conteudo = $this->view->fetch('admin/teste.twig', ["nome"=>"Tiago Gouvea"]);
-        return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+        $conteudo = $this->view->fetch('admin/teste.twig', ["nome" => "Tiago Gouvea"]);
+        return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
     });
 
 // -------------<>--------------- //
@@ -51,19 +51,18 @@ $app->group('/admin', function () {
             $registros = Trilha::getAllOrOne();
             $conteudo = $this->view->fetch(
                 'trilha/lista.twig',
-                ["registros"=>$registros]
+                ["registros" => $registros]
             );
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
             $conteudo = $this->view->fetch(
                 'trilha/form.twig'
             );
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
         $this->post('/incluir', function ($req, $res, $args) {
-            //echo "Código para acessar model e incluir no banco";
             $ok = Trilha::cadastro($_POST);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/trilha/");
@@ -74,12 +73,12 @@ $app->group('/admin', function () {
             $registro = Trilha::getAllOrOne($args['id']);
             $conteudo = $this->view->fetch(
                 'trilha/form.twig',
-                ['registro'=>$registro]
+                ['registro' => $registro]
             );
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
-            $ok = Trilha::salvar($args['id'],$_POST);
+            $ok = Trilha::salvar($args['id'], $_POST);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/trilha/");
             else
@@ -94,15 +93,43 @@ $app->group('/admin', function () {
                 echo "Erro ao salvar";
         });
 
-        // Fases - em Trilhas
+        // Fases - na trilha
         $this->get('/{id}/fases/', function ($req, $res, $args) {
-            $registros = Fases::getByTrilha($args['id']);
-            $conteudo = $this->view->fetch(
+            $trilha = Trilha::getAllOrOne($args['id']);
+            $fases = Fases::getByTrilha($args['id']);
+            $conteudo = fetch(
+                $this,
+                'trilha',
                 'fases/lista.twig',
-                ["registros"=>$registros]
+                ["registros" => $fases,
+                    "trilha" => $trilha,
+                    "id_trilha" => $args['id']
+                ]
             );
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            return renderLayout($this, $res, $conteudo);
         });
+
+        // Fases - Incluir na trilha
+        $this->get('/{id}/fase-incluir/', function ($req, $res, $args) {
+            $trilha = Trilha::getAllOrOne($args['id']);
+            $registros = Fases::getTrilhas();
+            $conteudo = $this->view->fetch(
+                'fases/form.twig',
+                ["registros" => $registros,
+                    "trilha" => $trilha,
+                    "id_trilha" => $args['id']
+                ]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo, "base_url" => $_ENV['base_url']]);
+        });
+
+        // Fases - Incluir na trilha
+        $this->post('/{id}/fase-incluir/', function ($req, $res, $args) {
+            Fases::incluir($_POST);
+            $urlRedirect = baseGroupUrl('trilha') . $args['id'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
+        });
+
     });
 
     // -------------<>--------------- //
@@ -110,20 +137,20 @@ $app->group('/admin', function () {
     // Fases
     $this->group('/fases', function () {
 
-        $this->get('/', function($req, $res, $args) {
+        $this->get('/', function ($req, $res, $args) {
             $registros = Fases::getAll();
             $conteudo = $this->view->fetch(
-                'fases/lista.twig', ["registros"=>$registros]
+                'fases/lista.twig', ["registros" => $registros]
             );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
             $registros = Fases::getTrilhas();
             $conteudo = $this->view->fetch(
-              'fases/form.twig', ["registros"=>$registros]
+                'fases/form.twig', ["registros" => $registros]
             );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->post('/incluir', function ($req, $res, $args) {
@@ -135,9 +162,9 @@ $app->group('/admin', function () {
         $this->get('/editar/{id}', function ($req, $res, $args) {
             $registros = Fases::add($args['id']);
             $conteudo = $this->view->fetch(
-                'fases/edit.twig', ["registros"=>$registros]
+                'fases/edit.twig', ["registros" => $registros]
             );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo"=>$conteudo]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->post('/editar/{id}', function ($req, $res, $args) {
@@ -157,8 +184,8 @@ $app->group('/admin', function () {
         // Perguntas em Fases
         $this->get('/{id}/perguntas/', function ($req, $res, $args) {
             $registros = Pergunta::getAllorOne($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros"=>$registros]);
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
     });
@@ -167,17 +194,17 @@ $app->group('/admin', function () {
 
     // Perguntas
     $this->group('/pergunta', function () {
-         //variável conteúdo referece ao local onde sera inserido o conteúdo
+        //variável conteúdo referece ao local onde sera inserido o conteúdo
         $this->get('/', function ($req, $res, $args) {
             $registros = Pergunta::getAllOrOne($args[null]);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros"=>$registros]);
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
             $var2 = Pergunta::getNomeFases();
-            $conteudo = $this->view->fetch('pergunta/add.twig', ["registros"=>$var2]);
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            $conteudo = $this->view->fetch('pergunta/add.twig', ["registros" => $var2]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->post('/incluir', function ($req, $res, $args) {
@@ -185,13 +212,13 @@ $app->group('/admin', function () {
 
             if ($ok) return $res->withStatus(302)
                 ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
-                else echo "Erro ao incluir";
+            else echo "Erro ao incluir";
         });
 
         $this->get('/{id}/editar', function ($req, $res, $args) {
             $result = Pergunta::getAllorOne($args['id']);
-            $conteudo = $this->view->fetch('pergunta/edit.twig', ['result'=>$result]);
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            $conteudo = $this->view->fetch('pergunta/edit.twig', ['result' => $result]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
 
         $this->post('/{id}/editar', function ($req, $res, $args) {
@@ -217,8 +244,8 @@ $app->group('/admin', function () {
         // Opções em Pergunta
         $this->get('/opcao/incluir/{id}', function ($req, $res, $args) {
             $resultado = Pergunta::getOpcoes($args['id']);
-            $conteudo = $this->view->fetch( 'opcao/form.php', ["registros"=>$resultado]);
-            return $this->view->render($res,'admin/layout.twig',["conteudo"=>$conteudo]);
+            $conteudo = $this->view->fetch('opcao/form.php', ["registros" => $resultado]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
     });
 
@@ -247,7 +274,7 @@ $app->group('/admin', function () {
         });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             $resultado = Opcao::listarPorId($args['id']);
-          //  echo "Form para editar a Opção " . $args['id'];
+            //  echo "Form para editar a Opção " . $args['id'];
             //var_dump($resultado);
             require "view/opcao/edit.php";
         });
@@ -269,5 +296,45 @@ $app->group('/admin', function () {
         });
     });
 });
+
+
+/**
+ * @param $app
+ * @param $groupBaseUrl
+ * @param $template
+ * @param $data
+ * @return mixed
+ * Dá o fetch no twig adicionando algumas variáveis
+ * base_url = base_url
+ * base_admin_url = base_url ~ 'admin/'
+ * base_group_url = base_url ~ 'admin/$groupBaseUrl/'
+ */
+function fetch($app, $groupBaseUrl, $template, $data)
+{
+    $baseAdminUrl = $_ENV['base_url'] . 'admin/';
+    $baseGroupUrl = baseGroupUrl($groupBaseUrl);
+
+    $data['base_url'] = $_ENV['base_url'];
+    $data['base_admin_url'] = $baseAdminUrl;
+    $data['base_group_url'] = $baseGroupUrl;
+    return $app->view->fetch(
+        $template,
+        $data
+    );
+}
+
+function baseGroupUrl($group)
+{
+    return $_ENV['base_url'] . '/admin/' . $group . '/';
+}
+
+function renderLayout($app, $res, $conteudo)
+{
+    return $app->view->render(
+        $res,
+        'admin/layout.twig',
+        ["conteudo" => $conteudo]
+    );
+}
 
 $app->run();
