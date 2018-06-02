@@ -284,11 +284,11 @@ $app->group('/admin', function () {
             $opcao = Opcao::getByPergunta($args['id']);
             $resultado = fetch(
                 $this,
-                'pergunta',
+                'opcao',
                 'opcao/list.twig',
                 ["registros" => $opcao,
-                    "trilha" => $pergunta,
-                    "id_trilha" => $args['id']
+                    "pergunta" => $pergunta,
+                    "id_pergunta" => $args['id']
                 ]
             );
             return renderLayout($this, $res, $resultado);
@@ -340,12 +340,13 @@ $app->group('/admin', function () {
             else
                 echo "Erro ao incluir";
         });
-        $this->get('/editar/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/editar/', function ($req, $res, $args) {
             $resultado = Opcao::listarPorId($args['id']);
-            $conteudo = $this->view->fetch('opcao/edit.twig', ['result' => $resultado]);
+            $conteudo = $this->view->fetch('opcao/edit.twig', ['resultado' => $resultado]);
             return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+
         });
-        $this->post('/editar/{id}', function ($req, $res, $args) {
+        $this->post('/{id}/editar/', function ($req, $res, $args) {
 
             $ok = Opcao::editar($_POST, $args['id']);
 
@@ -356,7 +357,7 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
             var_dump($ok);
         });
-        $this->get('/excluir/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/excluir/', function ($req, $res, $args) {
             //  echo "Excluir a fases " . $args['id'];
             $ok = Opcao::excluir($args['id']);
             if ($ok)
