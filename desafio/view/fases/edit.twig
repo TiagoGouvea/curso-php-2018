@@ -21,7 +21,15 @@
             <div class="form-group">
                 <label for="ordem">Número da Fase</label>
                 <select class="form-control" id="numFase" name="order" required>
-                    <option value="{{ registros.ordem }}">{{ registros.ordem }}</option>
+                    {% set i = 0 %}
+                    {% for i in number..20 %}
+                        {% if (i == registro.ordem) %}
+                            <option value="{{ registros.ordem }}">{{ registros.ordem }}</option>
+                        {% else %}
+                            <option value="{{ i }}">{{ i }}</option>
+                        {% endif %}
+                    {% endfor %}
+
                 </select>
             </div>
             <div class="form-group form-check">

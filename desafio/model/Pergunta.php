@@ -121,4 +121,18 @@ class Pergunta{
         }
     }
 
+    public static function getByFase($idFase)
+    {
+        global $db;
+        try {
+            $sql = 'SELECT * FROM pergunta where id_fase=:id_fase';
+            $std = $db->prepare($sql);
+            $std->bindParam(":id_fase", $idFase, PDO::PARAM_INT);
+            $success = $std->execute();
+            return $std->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+    }
+
 }

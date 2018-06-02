@@ -118,7 +118,7 @@
                 $std->bindParam(":title", $put['titulo'], PDO::PARAM_STR);
                 $std->bindParam(":description", $put['descricao'], PDO::PARAM_STR);
                 $std->bindParam(":order", $put['order'], PDO::PARAM_INT);
-                $std->bindParam(":status", $put['ativa'], PDO::PARAM_BOOL);
+                $std->bindParam(":status", $status, PDO::PARAM_BOOL);
                 $std->bindParam(":id_trilha",$put['id_trilha'], PDO::PARAM_INT);
                 $success = $std->execute();
                 if ($success)
