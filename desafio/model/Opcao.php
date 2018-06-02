@@ -80,9 +80,19 @@ class Opcao
             $resultado = "<p>Erro ao conectar com o servidor!</p>";
         }
         return $resultado;
+    }
 
-
-
+    public static function getByPergunta($id_pergunta){
+        global $db;
+        try {
+            $sql = 'SELECT * FROM pergunta where id_pergunta=:id_pergunta';
+            $std = $db->prepare($sql);
+            $std->bindParam(":id_pergunta", $id_pergunta, PDO::PARAM_INT);
+            $success = $std->execute();
+            return $std->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            var_dump($e);
+        }
     }
 
     public static function excluir($id)
