@@ -200,15 +200,35 @@ $app->group('/admin', function () {
             $perguntas = Pergunta::getByFase($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
             $conteudo = fetch(
                 $this,
-                'trilha',
+                'fase',
                 'pergunta/list.twig',
                 ["registros" => $perguntas,
                     "fase" => $fase,
-                    "id_trilha" => $args['id']
+                    "id_fase" => $args['id']
                 ]
             );
             return renderLayout($this, $res, $conteudo);
         });
+
+        $this->get('/{id}/pergunta-incluir/', function ($req, $res, $args) {
+            $fase = Fases::get($args['id']);
+            $conteudo = fetch( $this,
+                'fase',
+                'pergunta/add.twig',
+                [   "fase" => $fase,
+                    "id_fase" => $args['id']
+                ]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo, "base_url" => $_ENV['base_url']]);
+        });
+
+        // Fases - Incluir na trilha
+        $this->post('/{id}/fase-incluir/', function ($req, $res, $args) {
+            Fases::incluir($_POST);
+            $urlRedirect = baseGroupUrl('trilha') . $args['id'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
+        });
+
     });
 
     // -------------<>--------------- //
@@ -276,11 +296,29 @@ $app->group('/admin', function () {
                 ]
             );
             return renderLayout($this, $res, $resultado);
-
-//            $resultado = Pergunta::getOpcoes($args['id']);
-//            $conteudo = $this->view->fetch('opcao/form.php', ["registros" => $resultado]);
-//            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
+
+        $this->get('/{id}/opcao-incluir/', function ($req, $res, $args) {
+
+            $registros = Opcao::listarPorId($args['id']);
+            $conteudo = $this->view->fetch(
+                'opcao/form.twig',
+                ["registros" => $registros,
+                    "trilha" => $trilha,
+                    "id_pergunta" => $args['id']
+                ]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo, "base_url" => $_ENV['base_url']]);
+        });
+
+        // Fases - Incluir na trilha
+        $this->post('/{id}/opcao-incluir/', function ($req, $res, $args) {
+            Fases::incluir($_POST);
+            $urlRedirect = baseGroupUrl('trilha') . $args['id'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
+        });
+
+
     });
 
     // -------------<>--------------- //
