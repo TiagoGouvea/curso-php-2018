@@ -325,7 +325,7 @@ function fetch($app, $groupBaseUrl, $template, $data)
 
 function baseGroupUrl($group)
 {
-    return $_ENV['base_url'] . '/admin/' . $group . '/';
+    return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
 function renderLayout($app, $res, $conteudo)
