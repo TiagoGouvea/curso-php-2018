@@ -85,7 +85,7 @@
             }
         }
 
-        public static function add($id) {
+        public static function get($id) {
             global $db;
             try {
                 $sql = 'SELECT fase.id AS id, fase.titulo AS titulo, 
@@ -93,7 +93,8 @@
                     fase.ativa AS ativa, trilha.id AS id_trilha, trilha.titulo AS titulo_trilha
                     FROM fase
                     INNER JOIN trilha
-                    ON trilha.id = fase.id_trilha WHERE fase.id='. $id;
+                    ON trilha.id = fase.id_trilha WHERE fase.id='. $id .'
+                    ORDER BY ordem';
                 $std = $db->prepare($sql);
                 $success = $std->execute();
                 $result = $std->fetchAll(PDO::FETCH_OBJ);
@@ -112,9 +113,13 @@
             } else
                 $status = 0;
             try {
-                $sql = "UPDATE fase SET titulo = '{$put['titulo']}', conteudo = '{$put['descricao']}', ordem = '{$put['order']}', ativa = '{$status}', id_trilha = {$put['trilha']} WHERE id='{$id}'";
-                var_dump($sql);
+                $sql = "UPDATE fase SET titulo = :title, conteudo = :description, ordem = :order, ativa = :status, id_trilha = :id_trilha WHERE id='{$id}'";
                 $std = $db->prepare($sql);
+                $std->bindParam(":title", $put['titulo'], PDO::PARAM_STR);
+                $std->bindParam(":description", $put['descricao'], PDO::PARAM_STR);
+                $std->bindParam(":order", $put['order'], PDO::PARAM_INT);
+                $std->bindParam(":status", $status, PDO::PARAM_BOOL);
+                $std->bindParam(":id_trilha",$put['id_trilha'], PDO::PARAM_INT);
                 $success = $std->execute();
                 if ($success)
                     echo "Sucesso";

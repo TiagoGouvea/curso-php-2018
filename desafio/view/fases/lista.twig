@@ -38,9 +38,9 @@
                                 {% else %}
                                     <td>INATIVO</td>
                                 {% endif %}
-                                <td><a class='btn btn-outline-secondary' role='button' href='{{ registro.id }}/perguntas/'>Desafios</a></td>
-                                <td><a class='btn btn-outline-secondary' role='button' href='editar/{{ registro.id }}'>Alterar</a></td>
-                                <td><a class='btn btn-outline-secondary' role='button' href='excluir/{{ registro.id }}'>Excluir</a></td>
+                                <td><a class='btn btn-outline-secondary' role='button' href='{{  base_admin_url ~ 'fase/'~ registro.id }}/perguntas/'>Perguntas</a></td>
+                                <td><a class='btn btn-outline-secondary' role='button' href='{{  base_admin_url ~ 'fase/'~ registro.id }}/editar/'>Alterar</a></td>
+                                <td><a class='btn btn-outline-secondary' role='button' href='{{  base_admin_url ~ 'fase/'~ registro.id }}/excluir/'>Excluir</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
