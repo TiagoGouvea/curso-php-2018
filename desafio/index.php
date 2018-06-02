@@ -269,7 +269,7 @@ $app->group('/admin', function () {
             $resultado = fetch(
                 $this,
                 'pergunta',
-                'opcao/list.php',
+                'opcao/list.twig',
                 ["registros" => $opcao,
                     "trilha" => $pergunta,
                     "id_trilha" => $args['id']
