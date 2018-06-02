@@ -256,12 +256,12 @@ $app->group('/admin', function () {
         });
 
         // Opções em Pergunta
-        $this->get('/opcao/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/opcao/', function ($req, $res, $args) {
             $pergunta = Pergunta::getAllOrOne($args['id']);
             $opcao = Opcao::getByPergunta($args['id']);
             $resultado = fetch(
                 $this,
-                'pergunta',
+                'fase',
                 'opcao/list.php',
                 ["registros" => $opcao,
                     "trilha" => $pergunta,
