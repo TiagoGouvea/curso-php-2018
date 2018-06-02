@@ -21,11 +21,11 @@ $app = new Slim\App($container);
 // Carregar dependencias do Slim
 require 'lib/Dependencias.php';
 
-$app->get('/', function ($req, $res, $args) {
-    $registros = Trilha::getAllOrOne();
-    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
-    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
-});
+//$app->get('/', function ($req, $res, $args) {
+//    $registros = Trilha::getAllOrOne();
+//    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
+//    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
+//});
 
 $app->group('/admin', function () {
 
@@ -41,6 +41,13 @@ $app->group('/admin', function () {
         die();
     }
 
+    $this->get('/sair/', function ($req, $res, $args) {
+
+        $_SESSION["usuario"]=null;
+        return $res->withStatus(302)
+            ->withHeader("Location", $_ENV["base_url"]."admin/");
+
+    });
 
     // Home do Admin - Com a view de Login/Senha -
     // Sera preciso criar a validação dos dados
@@ -261,8 +268,8 @@ $app->group('/admin', function () {
             $opcao = Opcao::getByPergunta($args['id']);
             $resultado = fetch(
                 $this,
-                'fase',
-                'opcao/list.php',
+                'pergunta',
+                'opcao/list.twig',
                 ["registros" => $opcao,
                     "trilha" => $pergunta,
                     "id_trilha" => $args['id']
