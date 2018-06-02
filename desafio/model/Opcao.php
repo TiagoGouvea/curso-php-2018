@@ -85,5 +85,25 @@ class Opcao
 
     }
 
+    public static function excluir($id)
+    {
+        global $db;
+        try {
+            $sql = "DELETE FROM opcao WHERE id=:id";
+            $std = $db->prepare($sql);
+            $std->bindParam(":id", $id, PDO::PARAM_INT);
+            $resultado = $std->execute();
+            if ($resultado)
+                return ($resultado);
+            else {
+                var_dump($std->errorInfo());
+                die("Falha ao excluir o registro");
+            }
+
+        } catch (Exception $e) {
+            die("Erro ao de comunicação com o servidor");
+        }
+    }
+
 
 }
