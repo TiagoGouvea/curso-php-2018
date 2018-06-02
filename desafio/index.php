@@ -29,23 +29,23 @@ require 'lib/Dependencias.php';
 
 $app->group('/admin', function () {
 
-    if(!empty($_POST['email']) && !empty($_POST['senha'])){
-        if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
-            $_SESSION["usuario"]=true;
+    if (!empty($_POST['email']) && !empty($_POST['senha'])) {
+        if ($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
+            $_SESSION["usuario"] = true;
 
         }
     }
 
-    if(!isset($_SESSION["usuario"])){
+    if (!isset($_SESSION["usuario"])) {
         require('view/admin/login.twig');
         die();
     }
 
     $this->get('/sair/', function ($req, $res, $args) {
 
-        $_SESSION["usuario"]=null;
+        $_SESSION["usuario"] = null;
         return $res->withStatus(302)
-            ->withHeader("Location", $_ENV["base_url"]."admin/");
+            ->withHeader("Location", $_ENV["base_url"] . "admin/");
 
     });
 
@@ -53,7 +53,7 @@ $app->group('/admin', function () {
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
 
-        return renderLayout($this,$res);
+        return renderLayout($this, $res);
 
     });
 
@@ -61,7 +61,7 @@ $app->group('/admin', function () {
     $this->post('/', function ($req, $res, $args) {
 
 
-        return renderLayout($this,$res);
+        return renderLayout($this, $res);
 
 
     });
@@ -84,7 +84,7 @@ $app->group('/admin', function () {
                 'trilha/lista.twig',
                 ["registros" => $registros]
             );
-            return renderLayout($this,$res,$conteudo);
+            return renderLayout($this, $res, $conteudo);
 
 
         });
@@ -190,7 +190,7 @@ $app->group('/admin', function () {
             var_dump($idTrilha);
             Fases::delete($args['id']);
 
-            $urlRedirect = baseGroupUrl('trilha') .$idTrilha . '/fases/';
+            $urlRedirect = baseGroupUrl('trilha') . $idTrilha . '/fases/';
             return $res->withStatus(302)->withHeader("Location", $urlRedirect);
         });
 
@@ -289,29 +289,13 @@ $app->group('/admin', function () {
     $this->group('/opcao', function () {
         require "model/Opcao.php";
 
-
-
-        $this->get('/incluir', function ($req, $res, $args) {
-            require "view/opcao/form.php";
-
-        });
-        $this->post('/incluir', function ($req, $res, $args) {
-            $ok = Opcao::cadastrar($_POST);
-            if ($ok)
-                return $res->withStatus(302)->withHeader("Location", "/curso-php-2018/desafio/admin/opcao/");
-            else
-                echo "Erro ao incluir";
-        });
         $this->get('/editar/{id}', function ($req, $res, $args) {
             $resultado = Opcao::listarPorId($args['id']);
-            //  echo "Form para editar a Opção " . $args['id'];
-            //var_dump($resultado);
-            require "view/opcao/edit.php";
+            $conteudo = $this->view->fetch('opcao/edit.twig', ['result' => $resultado]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
         $this->post('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a opção $args[id] no banco";
-            //var_dump($_POST, $args['id']);
-            //exit();
+            require "view/opcao/edit.php";
             $ok = Opcao::editar($_POST, $args['id']);
 
             if ($ok)
@@ -322,7 +306,7 @@ $app->group('/admin', function () {
             var_dump($ok);
         });
         $this->get('/excluir/{id}', function ($req, $res, $args) {
-          //  echo "Excluir a fases " . $args['id'];
+            //  echo "Excluir a fases " . $args['id'];
             $ok = Opcao::excluir($args['id']);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", baseGroupUrl("trilha"));
@@ -365,13 +349,13 @@ function baseGroupUrl($group)
     return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
-function renderLayout($app, $res, $conteudo=null)
+function renderLayout($app, $res, $conteudo = null)
 {
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl]
+        ["conteudo" => $conteudo, "base_admin_url" => $baseAdminUrl]
     );
 }
 
