@@ -80,9 +80,39 @@ class Opcao
             $resultado = "<p>Erro ao conectar com o servidor!</p>";
         }
         return $resultado;
+    }
 
+    public static function getByPergunta($id_pergunta){
+        global $db;
+        try {
+            $sql = 'SELECT * FROM pergunta where id_pergunta=:id_pergunta';
+            $std = $db->prepare($sql);
+            $std->bindParam(":id_pergunta", $id_pergunta, PDO::PARAM_INT);
+            $success = $std->execute();
+            return $std->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+    }
 
+    public static function excluir($id)
+    {
+        global $db;
+        try {
+            $sql = "DELETE FROM opcao WHERE id=:id";
+            $std = $db->prepare($sql);
+            $std->bindParam(":id", $id, PDO::PARAM_INT);
+            $resultado = $std->execute();
+            if ($resultado)
+                return ($resultado);
+            else {
+                var_dump($std->errorInfo());
+                die("Falha ao excluir o registro");
+            }
 
+        } catch (Exception $e) {
+            die("Erro ao de comunicação com o servidor");
+        }
     }
 
 
