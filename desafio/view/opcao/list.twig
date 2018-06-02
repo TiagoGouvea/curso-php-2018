@@ -10,7 +10,7 @@
 
     <title>Listar Opções</title>
 </head>
-<body>
+
 <body class="text-center">
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,34 +30,27 @@
         </tr>
         </thead>
         <tbody>
-        <?php
-        foreach ($resultado as $item) {
 
-            if(($item->ativa)){
-                $ativa = "Ativa";
-            } else {
-                $ativa = " ";
-
-            }
+        {% for item in resultado %}
 
 
-            if(($item->correta)){
-                $correta= "Correta";
-            } else {
-                $correta= " ";
-            }
-            echo "
+            {% if (item.correta == 1) %}
+                {% set correta = "Correta" %}
+            {% else %}
+                {% set correta  = " " %}
+            {% endif %}
             <tr>
-                <th scope='row'>{$item->id}</th>
-                <td>{$item->titulo}</td>
-                <td>{$correta}</td>
-                <td>{$ativa}</td>
+                <th scope='row'>{{ item.id }}</th>
+                <td>{{ item.titulo }}</td>
+                <td>{{ correta }}</td>
+                <td> {% if (item.ativa == 1) %}
+                        Ativa
+                     {% endif %}
+                </td>
                 <td><a class='btn btn-primary' role='button' href='editar/$item->id'>Alterar</a></td>
                 <td><a class='btn btn-primary' role='button' href='excluir/$item->id'>Excluir</a></td>
             </tr>
-        ";
-        }
-        ?>
+        {% endfor %}
         </tbody>
     </table>
 </div>
