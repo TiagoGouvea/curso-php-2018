@@ -29,10 +29,34 @@ $app->get('/', function ($req, $res, $args) {
 
 $app->group('/admin', function () {
 
+    if(!empty($_POST['email']) && !empty($_POST['senha'])){
+        if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
+            $_SESSION["usuario"]=true;
+
+        }
+    }
+
+    if(!isset($_SESSION["usuario"])){
+        require('view/admin/login.twig');
+        die();
+    }
+
+
     // Home do Admin - Com a view de Login/Senha -
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
-        return $this->view->render($res, 'admin/login.twig');
+
+        return renderLayout($this,$res);
+
+    });
+
+    // Post para login
+    $this->post('/', function ($req, $res, $args) {
+
+
+        return renderLayout($this,$res);
+
+
     });
 
 // -------------<>--------------- //
@@ -53,7 +77,9 @@ $app->group('/admin', function () {
                 'trilha/lista.twig',
                 ["registros" => $registros]
             );
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+            return renderLayout($this,$res,$conteudo);
+
+
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
@@ -336,12 +362,13 @@ function baseGroupUrl($group)
     return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
-function renderLayout($app, $res, $conteudo)
+function renderLayout($app, $res, $conteudo=null)
 {
+    $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo]
+        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl]
     );
 }
 
