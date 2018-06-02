@@ -9,12 +9,7 @@
 <div class="container">
     <div class='containt'>
         <form method="post">
-            <div class="form-group">
-                <label for="trilha">Trilhas</label>
-                <select class="form-control" id="trilha" name="trilha" required>
-                    <option value="{{ registros.id_trilha }}">{{ registros.titulo_trilha }}</option>
-                </select>
-            </div>
+            <input type="hidden" name="id_trilha" value="{{ registros.id_trilha }}">
             <div class='form-group'>
                 <label for='titulo'>Titulo</label>
                 <input type='text' class='form-control' id='titulo' placeholder='Insira o titulo' name='titulo' required value="{{ registros.titulo }}" >
