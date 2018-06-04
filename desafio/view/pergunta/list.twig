@@ -14,8 +14,8 @@
 <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="inicio">Questionários</a>
-        <a class="navbar-brand" href="incluir">Adicionar</a>
-    </nav>
+        <a class="navbar-brand" href="{{  base_group_url ~ id_fase ~ '/pergunta-incluir/' }}">Adicionar</a>    </nav>
+    <h2 class="navbar-brand">Perguntas da Fase -  {{ fase.titulo }}</h2>
 </div>
 <div>
     <table class="table text-center text-justify">

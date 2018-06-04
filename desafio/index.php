@@ -81,8 +81,6 @@ $app->group('/admin', function () {
                 ["registros" => $registros]
             );
             return renderLayout($this, $res, $conteudo);
-
-
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
@@ -198,7 +196,8 @@ $app->group('/admin', function () {
                 $this,
                 'fase',
                 'pergunta/list.twig',
-                ["registros" => $perguntas,
+                [
+                    "registros" => $perguntas,
                     "fase" => $fase,
                     "id_fase" => $args['id']
                 ]
@@ -231,26 +230,6 @@ $app->group('/admin', function () {
 
     // Perguntas
     $this->group('/pergunta', function () {
-        //variável conteúdo referece ao local onde sera inserido o conteúdo
-        $this->get('/', function ($req, $res, $args) {
-            $registros = Pergunta::getAllOrOne($args[null]);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->get('/incluir', function ($req, $res, $args) {
-            $var2 = Pergunta::getNomeFases();
-            $conteudo = $this->view->fetch('pergunta/add.twig', ["registros" => $var2]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->post('/incluir', function ($req, $res, $args) {
-            $ok = Pergunta::add($_POST);
-
-            if ($ok) return $res->withStatus(302)
-                ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
-            else echo "Erro ao incluir";
-        });
 
         $this->get('/{id}/editar', function ($req, $res, $args) {
             $result = Pergunta::getAllorOne($args['id']);
@@ -295,12 +274,12 @@ $app->group('/admin', function () {
         });
 
         $this->get('/{id}/opcao-incluir/', function ($req, $res, $args) {
-
+            $opcao = Pergunta::getNomeFases();
             $registros = Opcao::listarPorId($args['id']);
             $conteudo = $this->view->fetch(
                 'opcao/form.twig',
                 ["registros" => $registros,
-                    "trilha" => $trilha,
+                    "opcao" => $opcao,
                     "id_pergunta" => $args['id']
                 ]
             );
@@ -387,13 +366,11 @@ function fetch($app, $groupBaseUrl, $template, $data)
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     $baseGroupUrl = baseGroupUrl($groupBaseUrl);
 
+
     $data['base_url'] = $_ENV['base_url'];
     $data['base_admin_url'] = $baseAdminUrl;
     $data['base_group_url'] = $baseGroupUrl;
-    return $app->view->fetch(
-        $template,
-        $data
-    );
+    return $app->view->fetch($template, $data);
 }
 
 function baseGroupUrl($group)
