@@ -67,8 +67,22 @@ $app->get('/', function ($req, $res, $args) {
     return renderLayout($this, $res, $conteudo);
 });
 
+$app->get('/trilha/{id}/', function ($req, $res, $args) {
+    $trilha = Trilha::getAllOrOne($args['id']);
+    $fases = Fases::getByTrilha($args['id']);
+    $conteudo = $this->view->fetch(
+        'cliente/trilha.twig',
+        [
+            "trilha" => $trilha,
+            "fases" => $fases,
+            "base_url" => $_ENV['base_url']
+        ]
+    );
+    return renderLayout($this, $res, $conteudo);
+});
 
 $app->get('/fase/{id}/', function ($req, $res, $args) {
+
     // obter a fase
     $registro= Fases::get($args['id']);
     //var_dump($registro);
@@ -128,20 +142,6 @@ $app->post('/fase/{id}/', function ($req, $res, $args) {
     $conteudo = $this->view->fetch('cliente/resultado.twig',
         ['resultado' => $resultado]);
     echo $conteudo;
-});
-
-$app->get('/trilha/{id}', function ($req, $res, $args) {
-    $trilha = Trilha::getAllOrOne($args['id']);
-    $fases = Fases::getByTrilha($args['id']);
-    $conteudo = $this->view->fetch(
-        'cliente/trilha.twig',
-        [
-            "trilha" => $trilha,
-            "fases" => $fases
-        ]
-    );
-    return renderLayout($this, $res, $conteudo);
-
 });
 
 ///////////// ADMIN //////////////////////
