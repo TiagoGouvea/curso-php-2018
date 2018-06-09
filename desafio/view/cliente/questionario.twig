@@ -4,10 +4,10 @@
             <form method="post" class="form-group">
                 {%  for pergunta in perguntas %}
                     <div class="form-control">
-                        <label for="pergunta">{{ pergunta.pergunta }}</label>
-                        {% for resposta in respostas %}
+                        <label for="pergunta">{{ pergunta.tituloPergunta }}</label>
+                        {% for opcao in pergunta.opcoes %}
                             <div class="radio">
-                                <label><input type="radio" name="optradio">{{ resposta.resposta }}</label>
+                                <label><input type="radio" name="optradio">{{ opcao.titulo }}</label>
                             </div>
                         {% endfor %}
                     </div>
