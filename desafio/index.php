@@ -24,17 +24,6 @@ require 'lib/Dependencias.php';
 
 ///////////// AUTENTICACAO E LOGIN //////////////////////
 
-$app->get('/', function ($req, $res, $args) {
-    // Saber se o cara está logado
-
-    // Se não estiver, mostrar login ou cadastro
-    if (!isset($_SESSION["usuario"])) {
-        return $res->withStatus(302)
-            ->withHeader("Location", $_ENV["base_url"] . "entrar/");
-    }
-
-});
-
 $app->get('/entrar/', function ($req, $res, $args) {
     echo $this->view->fetch('admin/login.twig');
 });
@@ -61,6 +50,23 @@ $app->get('/cadastrar/', function ($req, $res, $args) {
 
 
 //////////// JOGANDO ////////////////////
+$app->get('/', function ($req, $res, $args) {
+    // Saber se o cara está logado
+
+    // Se não estiver, mostrar login ou cadastro
+    if (!isset($_SESSION["usuario"])) {
+        return $res->withStatus(302)
+            ->withHeader("Location", $_ENV["base_url"] . "entrar/");
+    }
+    // listar as trilhas
+    $registros = Trilha::getAllOrOne();
+    $conteudo = $this->view->fetch(
+        'cliente/Home.twig',
+        ["registros" => $registros]
+    );
+    return renderLayout($this, $res, $conteudo);
+});
+
 
 $app->get('/fase/{id}/', function ($req, $res, $args) {
     // obter a fase
@@ -75,6 +81,21 @@ $app->get('/fase/{id}/', function ($req, $res, $args) {
     }
     echo $this->view->fetch('cliente/fase.twig', ["registro" => $registro, "perguntas"=> $perguntas]);
     //require('view/cliente/fase.twig');
+
+});
+
+
+$app->get('/trilha/{id}', function ($req, $res, $args) {
+    $trilha = Trilha::getAllOrOne($args['id']);
+    $fases = Fases::getByTrilha($args['id']);
+    $conteudo = $this->view->fetch(
+        'cliente/trilha.twig',
+        [
+            "trilha" => $trilha,
+            "fases" => $fases
+        ]
+    );
+    return renderLayout($this, $res, $conteudo);
 
 });
 

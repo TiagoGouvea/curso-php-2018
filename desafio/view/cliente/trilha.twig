@@ -13,21 +13,19 @@
 <body>
 <div class="container">
     <div class="card-deck">
-        {% for registros in registros %}
+        {% for fase in fases %}
+            {% if fase.ativa == 1 %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ registros.titulo }}</h5>
-                    <p class="card-text">{{ registros.descricao }}</p>
+                    <h5 class="card-title">{{ fase.titulo }}</h5>
+                    <p class="card-text">{{ fase.descricao }}</p>
                     <p class="card-text">
-                        {% if registros.ativa == 1 %}
-                            <small class="text-muted">Trilha Ativa</small>
-                        {% else %}
-                            <small class="text-muted">Trilha Desativa</small>
-                        {% endif %}
+                        <small class="text-muted">Texto texto</small>
                     </p>
-                    <a href="#" class="btn btn-primary">Go</a>
+                    <a href="fase/{{ fase.id }}" class="btn btn-primary">Go</a>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
