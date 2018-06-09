@@ -67,7 +67,13 @@ $app->get('/fase/{id}/', function ($req, $res, $args) {
     $registro= Fases::get($args['id']);
     //var_dump($registro);
     //passar para view
-    echo $this->view->fetch('cliente/fase.twig', ["registro" => $registro]);
+    $perguntas = Pergunta::getByFase($args['id']);
+    foreach ($perguntas as $k=>$pergunta) {
+        $opcoes = Opcao::getByPergunta($pergunta->id);
+        $pergunta->opcoes = $opcoes;
+        $perguntas[$k] = $pergunta;
+    }
+    echo $this->view->fetch('cliente/fase.twig', ["registro" => $registro, "perguntas"=> $perguntas]);
     //require('view/cliente/fase.twig');
 
 });
