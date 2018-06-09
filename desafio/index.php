@@ -50,7 +50,6 @@ $app->get('/cadastrar/', function ($req, $res, $args) {
 
 
 //////////// JOGANDO ////////////////////
-
 $app->get('/', function ($req, $res, $args) {
     // Saber se o cara está logado
 
@@ -61,12 +60,24 @@ $app->get('/', function ($req, $res, $args) {
     }
     // listar as trilhas
     $registros = Trilha::getAllOrOne();
-        $conteudo = $this->view->fetch(
-            'cliente/Home.twig',
-            ["registros" => $registros]
-        );
-        return renderLayout($this, $res, $conteudo);
+    $conteudo = $this->view->fetch(
+        'cliente/Home.twig',
+        ["registros" => $registros]
+    );
+    return renderLayout($this, $res, $conteudo);
 });
+
+
+$app->get('/fase/{id}/', function ($req, $res, $args) {
+    // obter a fase
+    $registro= Fases::get($args['id']);
+    //var_dump($registro);
+    //passar para view
+    echo $this->view->fetch('cliente/fase.twig', ["registro" => $registro]);
+    //require('view/cliente/fase.twig');
+
+});
+
 
 $app->get('/trilha/{id}', function ($req, $res, $args) {
     $trilha = Trilha::getAllOrOne($args['id']);
