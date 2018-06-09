@@ -7,7 +7,7 @@
                         <label for="pergunta">{{ pergunta.tituloPergunta }}</label>
                         {% for opcao in pergunta.opcoes %}
                             <div class="radio">
-                                <label><input type="radio" name="optradio">{{ opcao.titulo }}</label>
+                                <label><input type="radio" name="pergunta_{{ pergunta.id }}" value="opcao_{{ opcao.id }}">{{ opcao.titulo }}</label>
                             </div>
                         {% endfor %}
                     </div>

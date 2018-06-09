@@ -84,6 +84,51 @@ $app->get('/fase/{id}/', function ($req, $res, $args) {
 
 });
 
+$app->post('/fase/{id}/', function ($req, $res, $args) {
+
+    $acertos = 0;
+    $pontos = 0;
+    $erros = 0;
+    $percentual = 0;
+    $aprovado = null;
+    $registro= Fases::get($args['id']);
+    $perguntas = Pergunta::getByFase($args['id']);
+    foreach ($perguntas as $k=>$pergunta) {
+        $opcoes = Opcao::getByPergunta($pergunta->id);
+        $pergunta->opcoes = $opcoes;
+        $perguntas[$k] = $pergunta;
+        foreach ($opcoes as $opcao) {
+            if ($opcao->correta == 1)
+                $resposta_correta = $opcao;
+        }
+        $resposta = $_POST['pergunta_'.$pergunta->id];
+        $id_resposta = substr($resposta,6);
+        if ($resposta_correta->id == $id_resposta) {
+//            echo "vc acertou";
+            $acertos++;
+        }
+    }
+// pontos acertos erros percentual aprovado
+    $pontos = $acertos * 10;
+    $erros = count($perguntas) - $acertos;
+    $percentual = ($acertos / ($erros + $acertos))*100;
+    $aprovado = ($percentual >= 70);
+
+    $resultado['pontos'] = $pontos;
+    $resultado['erros'] = $erros;
+    $resultado['acertos'] = $acertos;
+    $resultado['aprovado'] = $aprovado;
+
+
+//    echo "pontos: $pontos<br>";
+//    echo "acertos: $acertos<br>";
+//    echo "erros: $erros<br>";
+//    echo "percentual: $percentual<br>";
+//    echo "aprovado: " . ($aprovado ? "SIM" : "NÃO") . "<br>";
+    $conteudo = $this->view->fetch('cliente/resultado.twig',
+        ['resultado' => $resultado]);
+    echo $conteudo;
+});
 
 $app->get('/trilha/{id}', function ($req, $res, $args) {
     $trilha = Trilha::getAllOrOne($args['id']);
