@@ -61,11 +61,16 @@ $app->get('/cadastrar/', function ($req, $res, $args) {
 
 
 //////////// JOGANDO ////////////////////
-$app->get('/fase/', function($req, $res, $args) {
-    require('view/cliente/questionario.twig');
+
+$app->get('/fase/{id}/', function ($req, $res, $args) {
+    // obter a fase
+    $registro= Fases::get($args['id']);
+    //var_dump($registro);
+    //passar para view
+    echo $this->view->fetch('cliente/fase.twig', ["registro" => $registro]);
+    //require('view/cliente/fase.twig');
+
 });
-
-
 
 ///////////// ADMIN //////////////////////
 
