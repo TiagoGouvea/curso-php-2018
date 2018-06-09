@@ -31,7 +31,7 @@
         </thead>
         <tbody>
 
-        {% for item in resultado %}
+        {% for item in registros %}
 
 
             {% if (item.correta == 1) %}
@@ -47,7 +47,7 @@
                         Ativa
                      {% endif %}
                 </td>
-                <td><a class='btn btn-primary' role='button' href='editar/$item->id'>Alterar</a></td>
+                <td><a class='btn btn-primary' role='button' href="{{ base_group_url ~ item.id ~'/editar/'}}">Alterar</a></td>
                 <td><a class='btn btn-primary' role='button' href='excluir/$item->id'>Excluir</a></td>
             </tr>
         {% endfor %}

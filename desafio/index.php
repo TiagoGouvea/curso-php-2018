@@ -31,21 +31,20 @@ $app->group('/admin', function () {
 
     if(!empty($_POST['email']) && !empty($_POST['senha'])){
         if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
-            $_SESSION["usuario"]=true;
-
+            $_SESSION["usuario"]=$_POST['email'];
         }
     }
 
-    if(!isset($_SESSION["usuario"])){
+    if (!isset($_SESSION["usuario"])) {
         require('view/admin/login.twig');
         die();
     }
 
     $this->get('/sair/', function ($req, $res, $args) {
 
-        $_SESSION["usuario"]=null;
+        $_SESSION["usuario"] = null;
         return $res->withStatus(302)
-            ->withHeader("Location", $_ENV["base_url"]."admin/");
+            ->withHeader("Location", $_ENV["base_url"] . "admin/");
 
     });
 
@@ -53,17 +52,14 @@ $app->group('/admin', function () {
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
 
+
         return renderLayout($this,$res);
 
     });
 
     // Post para login
     $this->post('/', function ($req, $res, $args) {
-
-
         return renderLayout($this,$res);
-
-
     });
 
 // -------------<>--------------- //
@@ -84,9 +80,7 @@ $app->group('/admin', function () {
                 'trilha/lista.twig',
                 ["registros" => $registros]
             );
-            return renderLayout($this,$res,$conteudo);
-
-
+            return renderLayout($this, $res, $conteudo);
         });
 
         $this->get('/incluir', function ($req, $res, $args) {
@@ -190,7 +184,7 @@ $app->group('/admin', function () {
             var_dump($idTrilha);
             Fases::delete($args['id']);
 
-            $urlRedirect = baseGroupUrl('trilha') .$idTrilha . '/fases/';
+            $urlRedirect = baseGroupUrl('trilha') . $idTrilha . '/fases/';
             return $res->withStatus(302)->withHeader("Location", $urlRedirect);
         });
 
@@ -200,41 +194,42 @@ $app->group('/admin', function () {
             $perguntas = Pergunta::getByFase($args['id']); // Ajustar > Fases::getByTrilha($args['id']);
             $conteudo = fetch(
                 $this,
-                'trilha',
+                'fase',
                 'pergunta/list.twig',
-                ["registros" => $perguntas,
+                [
+                    "registros" => $perguntas,
                     "fase" => $fase,
-                    "id_trilha" => $args['id']
+                    "id_fase" => $args['id']
                 ]
             );
             return renderLayout($this, $res, $conteudo);
         });
+
+        $this->get('/{id}/pergunta-incluir/', function ($req, $res, $args) {
+            $fase = Fases::get($args['id']);
+            $conteudo = fetch( $this,
+                'fase',
+                'pergunta/add.twig',
+                [   "fase" => $fase,
+                    "id_fase" => $args['id']
+                ]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo, "base_url" => $_ENV['base_url']]);
+        });
+
+        // Fases - Incluir na trilha
+        $this->post('/{id}/fase-incluir/', function ($req, $res, $args) {
+            Fases::incluir($_POST);
+            $urlRedirect = baseGroupUrl('trilha') . $args['id'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
+        });
+
     });
 
     // -------------<>--------------- //
 
     // Perguntas
     $this->group('/pergunta', function () {
-        //variável conteúdo referece ao local onde sera inserido o conteúdo
-        $this->get('/', function ($req, $res, $args) {
-            $registros = Pergunta::getAllOrOne($args[null]);
-            $conteudo = $this->view->fetch('pergunta/list.twig', ["registros" => $registros]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->get('/incluir', function ($req, $res, $args) {
-            $var2 = Pergunta::getNomeFases();
-            $conteudo = $this->view->fetch('pergunta/add.twig', ["registros" => $var2]);
-            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
-        });
-
-        $this->post('/incluir', function ($req, $res, $args) {
-            $ok = Pergunta::add($_POST);
-
-            if ($ok) return $res->withStatus(302)
-                ->withHeader("Location", "/curso-php-2018/curso-php-2018/desafio/admin/pergunta/");
-            else echo "Erro ao incluir";
-        });
 
         $this->get('/{id}/editar', function ($req, $res, $args) {
             $result = Pergunta::getAllorOne($args['id']);
@@ -268,19 +263,37 @@ $app->group('/admin', function () {
             $opcao = Opcao::getByPergunta($args['id']);
             $resultado = fetch(
                 $this,
-                'pergunta',
+                'opcao',
                 'opcao/list.twig',
                 ["registros" => $opcao,
-                    "trilha" => $pergunta,
-                    "id_trilha" => $args['id']
+                    "pergunta" => $pergunta,
+                    "id_pergunta" => $args['id']
                 ]
             );
             return renderLayout($this, $res, $resultado);
-
-//            $resultado = Pergunta::getOpcoes($args['id']);
-//            $conteudo = $this->view->fetch('opcao/form.php', ["registros" => $resultado]);
-//            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
         });
+
+        $this->get('/{id}/opcao-incluir/', function ($req, $res, $args) {
+            $opcao = Pergunta::getNomeFases();
+            $registros = Opcao::listarPorId($args['id']);
+            $conteudo = $this->view->fetch(
+                'opcao/form.twig',
+                ["registros" => $registros,
+                    "opcao" => $opcao,
+                    "id_pergunta" => $args['id']
+                ]
+            );
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo, "base_url" => $_ENV['base_url']]);
+        });
+
+        // Fases - Incluir na trilha
+        $this->post('/{id}/opcao-incluir/', function ($req, $res, $args) {
+            Fases::incluir($_POST);
+            $urlRedirect = baseGroupUrl('trilha') . $args['id'] . '/fases/';
+            return $res->withStatus(302)->withHeader("Location", $urlRedirect);
+        });
+
+
     });
 
     // -------------<>--------------- //
@@ -289,8 +302,12 @@ $app->group('/admin', function () {
     $this->group('/opcao', function () {
         require "model/Opcao.php";
 
-
-
+        // Esta rota não faz mas sentido
+//        $this->get('/', function ($req, $res, $args) {
+//            $resultado = Opcao::listar();
+//            require "view/opcao/list.php";
+//
+//        });
         $this->get('/incluir', function ($req, $res, $args) {
             require "view/opcao/form.php";
 
@@ -302,16 +319,14 @@ $app->group('/admin', function () {
             else
                 echo "Erro ao incluir";
         });
-        $this->get('/editar/{id}', function ($req, $res, $args) {
+        $this->get('/{id}/editar/', function ($req, $res, $args) {
             $resultado = Opcao::listarPorId($args['id']);
-            //  echo "Form para editar a Opção " . $args['id'];
-            //var_dump($resultado);
-            require "view/opcao/edit.php";
+            $conteudo = $this->view->fetch('opcao/edit.twig', ['resultado' => $resultado]);
+            return $this->view->render($res, 'admin/layout.twig', ["conteudo" => $conteudo]);
+
         });
-        $this->post('/editar/{id}', function ($req, $res, $args) {
-            echo "Código para acessar model e alterar a opção $args[id] no banco";
-            //var_dump($_POST, $args['id']);
-            //exit();
+        $this->post('/{id}/editar/', function ($req, $res, $args) {
+
             $ok = Opcao::editar($_POST, $args['id']);
 
             if ($ok)
@@ -321,8 +336,8 @@ $app->group('/admin', function () {
                 echo "Erro ao incluir";
             var_dump($ok);
         });
-        $this->get('/excluir/{id}', function ($req, $res, $args) {
-          //  echo "Excluir a fases " . $args['id'];
+        $this->get('/{id}/excluir/', function ($req, $res, $args) {
+            //  echo "Excluir a fases " . $args['id'];
             $ok = Opcao::excluir($args['id']);
             if ($ok)
                 return $res->withStatus(302)->withHeader("Location", baseGroupUrl("trilha"));
@@ -351,13 +366,11 @@ function fetch($app, $groupBaseUrl, $template, $data)
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
     $baseGroupUrl = baseGroupUrl($groupBaseUrl);
 
+
     $data['base_url'] = $_ENV['base_url'];
     $data['base_admin_url'] = $baseAdminUrl;
     $data['base_group_url'] = $baseGroupUrl;
-    return $app->view->fetch(
-        $template,
-        $data
-    );
+    return $app->view->fetch($template, $data);
 }
 
 function baseGroupUrl($group)
@@ -365,13 +378,14 @@ function baseGroupUrl($group)
     return $_ENV['base_url'] . 'admin/' . $group . '/';
 }
 
-function renderLayout($app, $res, $conteudo=null)
+function renderLayout($app, $res, $conteudo = null)
 {
     $baseAdminUrl = $_ENV['base_url'] . 'admin/';
+    $usuario = $_SESSION['usuario'];
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl]
+        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl, 'usuario'=>$usuario]
     );
 }
 
