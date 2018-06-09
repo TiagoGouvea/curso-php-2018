@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="col">
+        <div class="col-md-4 ">
+            <form method="post" class="form-group">
+                {%  for pergunta in perguntas %}
+                    <div class="form-control">
+                        <label for="pergunta">{{ pergunta.pergunta }}</label>
+                        {% for resposta in respostas %}
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">{{ resposta.resposta }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Validar</button>
+            </form>
+        </div>
+    </div>
+</div>

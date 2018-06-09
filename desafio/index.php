@@ -61,7 +61,9 @@ $app->get('/cadastrar/', function ($req, $res, $args) {
 
 
 //////////// JOGANDO ////////////////////
-
+$app->get('/fase/', function($req, $res, $args) {
+    require('view/cliente/questionario.twig');
+});
 
 
 
