@@ -21,27 +21,56 @@ $app = new Slim\App($container);
 // Carregar dependencias do Slim
 require 'lib/Dependencias.php';
 
-//$app->get('/', function ($req, $res, $args) {
-//    $registros = Trilha::getAllOrOne();
-//    $conteudo = $this->view->fetch('site/home.twig', ["registros" => $registros]);
-//    return $this->view->render($res, 'site/layout.twig', ["conteudo" => $conteudo]);
-//});
+
+///////////// AUTENTICACAO E LOGIN //////////////////////
+
+$app->get('/', function ($req, $res, $args) {
+    // Saber se o cara está logado
+
+    // Se não estiver, mostrar login ou cadastro
+    if (!isset($_SESSION["usuario"])) {
+        return $res->withStatus(302)
+            ->withHeader("Location", $_ENV["base_url"] . "entrar/");
+    }
+
+});
+
+$app->get('/entrar/', function ($req, $res, $args) {
+    echo $this->view->fetch('admin/login.twig');
+});
+
+$app->post('/entrar/', function ($req, $res, $args) {
+    $usuario = Usuario::getByEmail($_POST['email']);
+    $erro = null;
+    if ($usuario && $usuario->senha == $_POST['senha']) {
+        $_SESSION["usuario"] = $_POST['email'];
+        $_SESSION["id_usuario"] = $usuario->id;
+        return $res->withStatus(302)
+            ->withHeader("Location", $_ENV["base_url"]);
+    } else if ($usuario) {
+        $erro = "Senha inválida";
+    } else {
+        $erro = "Usuário não encontrado";
+    }
+    echo $this->view->fetch('admin/login.twig', ["error" => $erro]);
+});
+
+$app->get('/cadastrar/', function ($req, $res, $args) {
+    require('view/admin/signup.twig');
+});
+
+
+//////////// JOGANDO ////////////////////
+
+
+
+
+///////////// ADMIN //////////////////////
+
 
 $app->group('/admin', function () {
 
-    if(!empty($_POST['email']) && !empty($_POST['senha'])){
-        if($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
-            $_SESSION["usuario"]=$_POST['email'];
-        }
-    }
-
-    if (!isset($_SESSION["usuario"])) {
-        require('view/admin/login.twig');
-        die();
-    }
-
     $this->get('/sair/', function ($req, $res, $args) {
-
         $_SESSION["usuario"] = null;
         return $res->withStatus(302)
             ->withHeader("Location", $_ENV["base_url"] . "admin/");
@@ -51,15 +80,23 @@ $app->group('/admin', function () {
     // Home do Admin - Com a view de Login/Senha -
     // Sera preciso criar a validação dos dados
     $this->get('/', function ($req, $res, $args) {
+        if (!empty($_POST['email']) && !empty($_POST['senha'])) {
+            if ($_POST['email'] == 'usuario@desafio.com.br' && $_POST['senha'] == 'asdf') {
+                $_SESSION["usuario"] = $_POST['email'];
+            }
+        }
 
+        if (!isset($_SESSION["usuario"])) {
+            require('view/admin/login.twig');
+            die();
+        }
 
-        return renderLayout($this,$res);
-
+        return renderLayout($this, $res);
     });
 
     // Post para login
     $this->post('/', function ($req, $res, $args) {
-        return renderLayout($this,$res);
+        return renderLayout($this, $res);
     });
 
 // -------------<>--------------- //
@@ -207,10 +244,10 @@ $app->group('/admin', function () {
 
         $this->get('/{id}/pergunta-incluir/', function ($req, $res, $args) {
             $fase = Fases::get($args['id']);
-            $conteudo = fetch( $this,
+            $conteudo = fetch($this,
                 'fase',
                 'pergunta/add.twig',
-                [   "fase" => $fase,
+                ["fase" => $fase,
                     "id_fase" => $args['id']
                 ]
             );
@@ -385,7 +422,7 @@ function renderLayout($app, $res, $conteudo = null)
     return $app->view->render(
         $res,
         'admin/layout.twig',
-        ["conteudo" => $conteudo, "base_admin_url"=> $baseAdminUrl, 'usuario'=>$usuario]
+        ["conteudo" => $conteudo, "base_admin_url" => $baseAdminUrl, 'usuario' => $usuario]
     );
 }
 

@@ -15,6 +15,21 @@ class Usuario
     public $email;
     public $senha;
 
+    public static function getByEmail($email)
+    {
+        global $db;
+        $sql = 'SELECT * FROM usuario
+                  WHERE email = :email';
+        $std = $db->prepare($sql);
+        $std->bindParam(":email", $email, PDO::PARAM_STR);
+        $success = $std->execute();
+        $registros = $std->fetchAll(PDO::FETCH_OBJ);
+        if (count($registros)>0)
+            return $registros[0];
+        else
+            return null;
+    }
+
     static function getAllOrOne($id = null)
     {
         global $db;
@@ -130,4 +145,6 @@ class Usuario
             die("Erro ao de comunicação com o servidor");
         }
     }
+
+
 }

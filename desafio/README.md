@@ -1,4 +1,24 @@
+# Pra ontem
+
+# A
+- Listar trilhas
+- Escolher uma trilha
+- /trilha/{id}/
+- Dentro da trilha listar fases
+
+# B
+- Dentro da fase ver conteúdo
+- /fase/{id}/
+
+# C
+- Abaixo do conteúdo responder perguntas formulário
+- formulário lista as perguntas, com as opções,
+- recebe o post e validar
+- Saber se passou ou não
+
+
 # Para hoje
+
 
 - [x] Estamos no meio do caminho, temos que acostumar com mudanças
 - [x] dotEnv - development (debug) - production (online)

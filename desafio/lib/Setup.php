@@ -34,8 +34,7 @@ session_start();
 require 'lib/Db.php';
 require "model/Trilha.php";
 require 'model/Fases.php';
-//require 'model/Opcao.php';
+require 'model/Usuario.php';
 require 'model/Pergunta.php';
-//require 'model/Trilha.php';
 
 ?>

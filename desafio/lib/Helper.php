@@ -7,7 +7,6 @@
  * Helper::meuMetodo()
  */
 
-
 // Verifica se a pasta é "gravável", se existe permissão de escrita
 function isWritablePath($xpath)
 {
